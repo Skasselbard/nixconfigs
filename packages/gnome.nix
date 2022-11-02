@@ -1,7 +1,4 @@
-{ config, pkgs, ... }:
-let
-  home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/release-22.05.tar.gz";
-in
+{pkgs, home-manager, ... }:
 {
   # Enable the X11 windowing system.
   services.xserver.enable = true;
@@ -10,6 +7,12 @@ in
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
   programs.dconf.enable = true;
+  
+  # Configure keymap in X11
+  services.xserver = {
+    layout = "de";
+    xkbVariant = "nodeadkeys";
+  };
   
   # Enable sound with pipewire.
   sound.enable = true;
@@ -31,6 +34,7 @@ in
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
+  # FIXME: dont use hardcoded user
   home-manager = {
     users.tom = { pkgs, ... }: with pkgs; {
       home.packages = with pkgs; [
