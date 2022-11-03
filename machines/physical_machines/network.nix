@@ -1,10 +1,12 @@
 { lib, config, ... }:
 with lib; {
-  options = {
-    hostname = mkOption { type = types.str; };
-    ip = mkOption { type = types.str; };
-    interface = mkOption { type = types.str; };
-    bridgename = mkOption { type = types.str; };
+  options = with types; {
+    hostname = mkOption { type = str; };
+    ip = mkOption { type = str; };
+    interface = mkOption { type = str; };
+    gateway = mkOption { type = str; };
+    bridgename = mkOption { type = str; };
+    nameservers = mkOption { type = listOf str; };
     # domain = mkOption{type=types.str;};
   };
 
@@ -15,7 +17,7 @@ with lib; {
     networking = {
       hostName = config.hostname;
       # domain = config.domain;
-      nameservers = [ "8.8.8.8" ];
+      nameservers = config.nameservers;
       bridges = {
         "${config.bridgename}" = { interfaces = [ config.interface ]; };
       };
@@ -27,8 +29,8 @@ with lib; {
         }];
       };
       defaultGateway = {
-        address = "192.168.1.1";
-        interface = "${config.bridgename}";
+        address = config.gateway;
+        interface = config.bridgename;
       };
       # extraHosts = {
       #   "127.0.0.1" = [ "foo.bar.baz" ];

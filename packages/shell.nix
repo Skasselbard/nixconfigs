@@ -1,10 +1,4 @@
 {
-  # TODO: ZSH Config
-  programs.zsh.ohMyZsh = {
-    enable = true;
-    plugins = [ "git" "python" "man" ];
-    theme = "agnoster";
-  };
   home-manager-programs = {
     bash.enable = true;
     nushell.enable = true;
