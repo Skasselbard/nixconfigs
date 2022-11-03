@@ -9,6 +9,5 @@
     ./boot.nix
     ./partitioning.nix
     ./network.nix
-    ./kubernetes.nix # FIXME: make kubernetes configurable (and optional)
   ];
 }
