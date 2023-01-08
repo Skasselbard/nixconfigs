@@ -2,6 +2,6 @@
 {
   imports = [
     ./physical_machines
-    ./default.nix
+    ../default.nix
   ];
 }

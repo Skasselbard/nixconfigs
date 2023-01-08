@@ -2,6 +2,6 @@
 {
   imports = [
     ./virtual_machines
-    ./default.nix
+    ../default.nix
   ];
 }

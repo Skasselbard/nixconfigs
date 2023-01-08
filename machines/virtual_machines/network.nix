@@ -1,9 +1,9 @@
 { lib, config, ... }:
 with lib; {
-  options = {
-    hostname = mkOption { type = types.str; };
-    ip = mkOption { type = types.str; };
-    interface = mkOption { type = types.str; };
+  options = with types; {
+    hostname = mkOption { type = str; };
+    ip = mkOption { type = str; };
+    interface = mkOption { type = str; };
     gateway = mkOption { type = str; };
     nameservers = mkOption { type = listOf str; };
     # domain = mkOption{type=types.str;};
