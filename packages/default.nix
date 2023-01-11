@@ -1,33 +1,52 @@
-{ pkgs, ... }: {
-  imports = [ ./shell.nix ./ssh.nix ./prometheus.nix ];
+{ lib, pkgs, config, ... }:
+let
+  home-manager = builtins.fetchTarball
+    "https://github.com/nix-community/home-manager/archive/release-22.05.tar.gz";
+in {
+  imports = [ ./ssh.nix ./prometheus.nix (import "${home-manager}/nixos") ];
 
-  options = {
-    gitUser = mkOption { type = types.str; };
-    gitMail = mkOption { type = types.str; };
-  };
-
-  config = {
-    # Allow unfree packages
-    nixpkgs.config.allowUnfree = true;
-    # accessible for all
-    environment.systemPackages = with pkgs; [
-      dmidecode # get bios info e.g. version: dmidecode -t bios
-      exfatprogs
-      git
-      htop
-      nixos-generators
-      vim
-      wget
-      zsh
-      zsh-git-prompt
-    ];
-    home-manager-programs = {
-      git = {
-        enable = true;
-        package = gitSVN;
-        userName = config.gitUser;
-        userEmail = config.gitMail;
+  options = with lib;
+    with types; {
+      gitUser = mkOption { type = str; };
+      gitMail = mkOption { type = str; };
+      osUsers = mkOption { # TODO: better var name?
+        type = listOf str;
+        description = "List of users the packages are applyied to";
+        default = [ "root" ];
       };
     };
-  };
+
+  config = with pkgs;
+    with builtins; {
+      # Allow unfree packages
+      nixpkgs.config.allowUnfree = true;
+      # accessible for all
+      environment.systemPackages = [
+        dmidecode # get bios info e.g. version: dmidecode -t bios
+        exfatprogs
+        git
+        htop
+        nixos-generators
+        vim
+        wget
+        zsh
+        zsh-git-prompt
+      ];
+      home-manager = {
+        useGlobalPkgs = true;
+        users = listToAttrs (map (elem: {
+          name = elem;
+          value = {
+            programs = import ./shell.nix // {
+              git = {
+                enable = true;
+                package = gitSVN;
+                # userName = config.gitUser;
+                # userEmail = config.gitMail;
+              };
+            };
+          };
+        }) config.osUsers);
+      };
+    };
 }

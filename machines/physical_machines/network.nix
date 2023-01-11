@@ -6,7 +6,10 @@ with lib; {
     interface = mkOption { type = str; };
     gateway = mkOption { type = str; };
     bridgename = mkOption { type = str; };
-    nameservers = mkOption { type = listOf str; };
+    nameservers = mkOption {
+      type = listOf str;
+      default = [ "8.8.8.8" ];
+    };
     # domain = mkOption{type=types.str;};
   };
 
