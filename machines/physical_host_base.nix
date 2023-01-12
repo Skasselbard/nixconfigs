@@ -12,15 +12,15 @@ with types; {
   config = {
     networking = {
       hostName = config.hostname;
-      interfaces = if config.ip != null && config.interface != null then {
-        "${config.interface}" = {
-          ipv4.addresses = [{
-            address = config.ip;
-            prefixLength = 24;
-          }];
-        };
-      } else
-        { };
+      # interfaces = if config.ip != null && config.interface != null then {
+      #   "${config.interface}" = {
+      #     ipv4.addresses = [{
+      #       address = config.ip;
+      #       prefixLength = 24;
+      #     }];
+      #   };
+      # } else
+      #   { };
     };
   };
 }
