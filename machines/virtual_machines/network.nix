@@ -22,7 +22,7 @@ with lib; {
       };
       defaultGateway = {
         address = config.gateway;
-        interface = config.bridgename;
+        interface = config.interface;
       };
       # extraHosts = {
       #   "127.0.0.1" = [ "foo.bar.baz" ];
