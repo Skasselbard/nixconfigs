@@ -1,18 +1,23 @@
 { lib, config, ... }:
-with lib;
-{
+with lib; {
   options = {
-    boot-uuid = mkOption{type = types.str;};
-    root-uuid = mkOption{type = types.str;};
+    boot-label = mkOption {
+      type = types.str;
+      default = "boot";
+    };
+    root-label = mkOption {
+      type = types.str;
+      default = "nixos";
+    };
   };
   # The partitioning has to be done manually first (e.g. with pated)
   config.fileSystems = {
     "/boot" = {
-      device = "/dev/disk/by-uuid/${config.boot-uuid}";
+      device = "/dev/disk/by-label/${config.boot-label}";
       fsType = "vfat";
     };
     "/" = {
-      device = "/dev/disk/by-uuid/${config.root-uuid}";
+      device = "/dev/disk/by-label/${config.root-label}";
       fsType = "ext4";
       autoResize = true; # grow if partition grows
     };
