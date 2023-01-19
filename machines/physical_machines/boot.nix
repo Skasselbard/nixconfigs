@@ -3,9 +3,9 @@
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
     # loader.efi.efiSysMountPoint = "/boot/efi";
-    # Setup keyfile
     kernelModules = [ "kvm-amd" "kvm-intel" ];
-    initrd.secrets = { "/crypto_keyfile.bin" = null; };
+    # Setup keyfile
+    # initrd.secrets = { "/crypto_keyfile.bin" = null; };
     initrd.availableKernelModules = [
       "ehci_pci"
       "ahci"
