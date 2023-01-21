@@ -7,8 +7,9 @@ in {
 
   options = with lib;
     with types; {
-      gitUser = mkOption { type = str; };
-      gitMail = mkOption { type = str; };
+      # TODO: git cannot be in default file if it requires options
+      # gitUser = mkOption { type = str; };
+      # gitMail = mkOption { type = str; };
       osUsers = mkOption { # TODO: better var name?
         type = listOf str;
         description = "List of users the packages are applyied to";

@@ -1,17 +1,11 @@
 { pkgs, ... }: {
   imports = [
+    # includes can not contain device specific options
     ./virtual_machines/partitioning.nix
     ./virtual_machines/boot.nix
-    ../locale.nix
-    ../users/no_users.nix
+    ../default.nix
   ];
 
-  password = "vm";
-  services.openssh.enable = true;
-  # boot.postBootCommands = ''
-  #     export NIX_PATH=nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos
-  #     nixos-rebuild switch -I nixos-config=/etc/nixos/hosts/self/configuration.nix
-  # '';
   systemd.services.nixos_configure = {
     path = with pkgs; [ nixos-rebuild ];
     environment = {
@@ -23,7 +17,7 @@
       RemainAfterExit = "yes";
     };
     script = ''
-      nixos-rebuild boot -I nixos-config=/etc/nixos/hosts/self/configuration.nix
+      nixos-rebuild boot -I nixos-config=/etc/nixos/configuration.nix
       reboot
     '';
   };
