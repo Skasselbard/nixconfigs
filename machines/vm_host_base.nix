@@ -6,6 +6,9 @@
     ../default.nix
   ];
 
+  sshKey = builtins.readFile (builtins.head
+    (builtins.filter builtins.pathExists [ "/etc/hive/ssh/id_rsa.pub" ]));
+
   systemd.services.nixos_configure = {
     path = with pkgs; [ nixos-rebuild git ];
     environment = {
@@ -17,7 +20,7 @@
       RemainAfterExit = "yes";
     };
     script = ''
-      nixos-rebuild boot -I nixos-config=/etc/nixos/configuration.nix
+      nixos-rebuild boot -I nixos-config=/etc/nixos/hive/self/configuration.nix
       reboot
     '';
   };
