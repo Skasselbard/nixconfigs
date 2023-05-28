@@ -31,5 +31,6 @@ with pkgs; {
         openssh.authorizedKeys.keys = [ config.sshKey ];
       };
     };
+    home-manager.users.tom.programs = import ../packages/shell.nix;
   };
 }
