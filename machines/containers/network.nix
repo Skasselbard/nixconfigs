@@ -3,7 +3,7 @@ with lib; {
   options = with types; {
     hostname = mkOption { type = str; };
     ip = mkOption { type = str; };
-    interface = mkOption { type = str; };
+    host_interface = mkOption { type = str; };
     gateway = mkOption { type = str; };
     nameservers = mkOption {
       type = listOf str;
@@ -20,12 +20,7 @@ with lib; {
       hostName = config.hostname;
       # domain = config.domain;
       nameservers = config.nameservers;
-      macvlans.vlan1 = {
-        # wakeOnLan.enable = true;
-        interface = config.interface;
-        mode = "bridge";
-      };
-      interfaces.vlan1 = {
+      interfaces."mv-${config.host_interface}" = {
         ipv4.addresses = [{
           address = config.ip;
           prefixLength = 24;
@@ -33,7 +28,7 @@ with lib; {
       };
       defaultGateway = {
         address = config.gateway;
-        interface = "vlan1";
+        interface = "mv-${config.host_interface}";
       };
       # extraHosts = {
       #   "127.0.0.1" = [ "foo.bar.baz" ];
