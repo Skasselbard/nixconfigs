@@ -21,6 +21,8 @@ with pkgs; {
     };
   };
 
+  imports = [ (import "${home-manager}/nixos") ];
+
   config = {
     users.mutableUsers = false;
     users.extraUsers = {
