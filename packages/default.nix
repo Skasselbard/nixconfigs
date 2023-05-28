@@ -33,21 +33,21 @@ in {
         zsh
         zsh-git-prompt
       ];
-      home-manager = {
-        useGlobalPkgs = true;
-        users = listToAttrs (map (elem: {
-          name = elem;
-          value = {
-            programs = import ./shell.nix // {
-              git = {
-                enable = true;
-                package = gitSVN;
-                # userName = config.gitUser;
-                # userEmail = config.gitMail;
-              };
-            };
-          };
-        }) config.osUsers);
-      };
+      # home-manager = {
+      #   useGlobalPkgs = true;
+      #   users = listToAttrs (map (elem: {
+      #     name = elem;
+      #     value = {
+      #       programs = import ./shell.nix // {
+      #         git = {
+      #           enable = true;
+      #           package = gitSVN;
+      #           # userName = config.gitUser;
+      #           # userEmail = config.gitMail;
+      #         };
+      #       };
+      #     };
+      #   }) config.osUsers);
+      # };
     };
 }
