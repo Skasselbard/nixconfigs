@@ -1,6 +1,9 @@
 { lib, config, pkgs, ... }:
 
-with lib;
+let
+  home-manager = builtins.fetchTarball
+    "https://github.com/nix-community/home-manager/archive/release-22.05.tar.gz";
+in with lib;
 with pkgs; {
   #TODO: use home manager?
   # https://nix-community.github.io/home-manager/
