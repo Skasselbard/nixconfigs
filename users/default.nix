@@ -1,9 +1,6 @@
 { lib, config, pkgs, ... }:
 
-let
-  home-manager = builtins.fetchTarball
-    "https://github.com/nix-community/home-manager/archive/release-22.05.tar.gz";
-in with lib;
+with lib;
 with pkgs; {
   #TODO: use home manager?
   # https://nix-community.github.io/home-manager/
@@ -21,7 +18,7 @@ with pkgs; {
     };
   };
 
-  imports = [ (import "${home-manager}/nixos") ];
+  imports = [ ../packages/shell.nix ];
 
   config = {
     users.mutableUsers = false;
@@ -36,6 +33,5 @@ with pkgs; {
         openssh.authorizedKeys.keys = [ config.sshKey ];
       };
     };
-    home-manager.users.tom.programs = import ../packages/shell.nix;
   };
 }

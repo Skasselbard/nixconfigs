@@ -1,15 +1,15 @@
 {
-  bash.enable = true;
-  nushell.enable = true;
-  zsh = {
+  # bash.enable = true;
+  # nushell.enable = true;
+  programs.zsh = {
     enable = true;
-    enableAutosuggestions = true;
+    autosuggestions.enable = true;
     enableCompletion = true;
-    enableSyntaxHighlighting = true;
-    autocd = true;
-    history.expireDuplicatesFirst = true;
-    history.ignoreDups = true;
-    oh-my-zsh = {
+    syntaxHighlighting.enable = true;
+    # autocd = true;
+    # history.expireDuplicatesFirst = true;
+    # history.ignoreDups = true;
+    ohMyZsh = {
       enable = true;
       theme = "agnoster";
       plugins = [

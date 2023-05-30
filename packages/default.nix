@@ -1,11 +1,10 @@
 { lib, pkgs, config, ... }:
-# let
-#   home-manager = builtins.fetchTarball
-#     "https://github.com/nix-community/home-manager/archive/release-22.05.tar.gz";
-# in
-{
+let
+  home-manager = builtins.fetchTarball
+    "https://github.com/nix-community/home-manager/archive/release-22.05.tar.gz";
+in {
   imports =
-    [ ./ssh.nix ./prometheus.nix ]; # (import "${home-manager}/nixos") ];
+    [ ./ssh.nix ./prometheus.nix (import "${home-manager}/nixos") ];
 
   options = with lib;
     with types; {
@@ -35,21 +34,21 @@
         zsh
         zsh-git-prompt
       ];
-      # home-manager = {
-      #   useGlobalPkgs = true;
-      #   users = listToAttrs (map (elem: {
-      #     name = elem;
-      #     value = {
-      #       programs = import ./shell.nix // {
-      #         git = {
-      #           enable = true;
-      #           package = gitSVN;
-      #           # userName = config.gitUser;
-      #           # userEmail = config.gitMail;
-      #         };
-      #       };
-      #     };
-      #   }) config.osUsers);
-      # };
+      home-manager = {
+        useGlobalPkgs = true;
+        users = listToAttrs (map (elem: {
+          name = elem;
+          value = {
+            programs = {
+              git = {
+                enable = true;
+                package = gitSVN;
+                # userName = config.gitUser;
+                # userEmail = config.gitMail;
+              };
+            };
+          };
+        }) config.osUsers);
+      };
     };
 }
