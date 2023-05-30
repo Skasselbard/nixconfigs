@@ -14,10 +14,6 @@
       "HIST_FCNTL_LOCK"
       "HIST_EXPIRE_DUPS_FIRST"
     ];
-    interactiveShellInit = ''
-      # disable configuration script for new users
-      zsh-newuser-install() { :; }
-    '';
     ohMyZsh = {
       enable = true;
       theme = "agnoster";
