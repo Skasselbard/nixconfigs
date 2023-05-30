@@ -7,8 +7,17 @@
     enableCompletion = true;
     syntaxHighlighting.enable = true;
     # autocd = true;
-    # history.expireDuplicatesFirst = true;
-    # history.ignoreDups = true;
+    # options: https://manpages.debian.org/testing/zsh-common/zshoptions.1.en.html
+    setOptions = [
+      "HIST_IGNORE_DUPS"
+      "SHARE_HISTORY"
+      "HIST_FCNTL_LOCK"
+      "HIST_EXPIRE_DUPS_FIRST"
+    ];
+    interactiveShellInit = ''
+      # disable configuration script for new users
+      zsh-newuser-install() { :; }
+    '';
     ohMyZsh = {
       enable = true;
       theme = "agnoster";
