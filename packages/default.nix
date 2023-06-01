@@ -31,6 +31,7 @@ in {
         nixos-generators
         vim
         wget
+        yq-go # YAML processor
         zsh
         zsh-git-prompt
       ];

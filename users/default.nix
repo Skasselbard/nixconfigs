@@ -23,7 +23,10 @@ with pkgs; {
   config = {
     users.mutableUsers = false;
     users.extraUsers = {
-      root.openssh.authorizedKeys.keys = [ config.sshKey ];
+      root = {
+        openssh.authorizedKeys.keys = [ config.sshKey ];
+        shell = zsh;
+      };
 
       tom = {
         isNormalUser = true;
