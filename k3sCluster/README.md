@@ -26,7 +26,11 @@ The configuration is a set of csv tables which also document your deployments.
 
 ## Assumptions
 
-To keep the configuration minimal the following assumptions were made:
+There are some assumptions that are embedded in the project.
+Some keep the configuration minimal and structured.
+Others reflect personal taste.
+
+The following assumptions may be of interest:
 
 - K3s runs in containers on one or more host machines
 - The k3s server is running in a [nixos-container](https://nixos.wiki/wiki/NixOS_Containers) (because it is an easy NixOS integration)
@@ -37,15 +41,17 @@ To keep the configuration minimal the following assumptions were made:
 - The network is configured as macvlan
   - including the host configuration
   - the host and the k3s containers share the same interface
-- All machines and containers are in the same subnet with the same gateway
+- Containers are in the same subnet with the same gateway as the host
   - which of course should be reachable from the deploying machine
 - The nix configuration is built on the deploying machine
 - Each host has an admin user
   - The NixOS on the associated container for the k3s server (if it exists) has the same admin user
-- hosts are accessible by ssh
-  - k3s servers share the ssh keys with the host or disable ssh access
+- Hosts are accessible by ssh
   - ssh connections prohibit passwords and root logins (only ssh keys are allowed)
   - the admin user has a password for sudo once an ssh connection is established
+- Kubernetes versions are shared
+  - All k3s-servers run the same NixOs version
+  - All k3s-agents run the same Kubernetes image
 
 ## Requirements
 
@@ -66,7 +72,18 @@ TODO: Link to create a repo from folder.
 
 ## Configuration
 
-TODO: fill in plans
+- Physikal machine and network configuration -> in the hosts.csv
+- k3s container and network configuration -> k3s.csv
+- additional nix config in "TODO" subfolder
+  - the config is selected by name e.g. host/container "olaf" -> olaf.nix
+- TODO: work out secrets
+- TODO: work out versions
+- TODO: work out network.yaml / global config
+- TODO: additional keys in the csv files will be added to the nix configuration
+  - they probably need to be a defined option somewhere?
+
+- :bulb: all values are stripped of whitespace and normalize to lowercase letters (=> not case sensitive)
+- you can extend the plans to your liking if you like to store additional data as long as the needed keys are present
 
 ### Example
 Check the [examples](/exampls/plans) folder.
@@ -93,6 +110,7 @@ karl| karl-k3s-agent| agent| 10.0.100.15| ignored
 | :bulb: INFO   
 |:------------------------|
 | k3s Agents cannot be accessed via ssh so their ssh-access field is ignored|
+|TODO: Is the key even needed? SSH can be part of extra config|
 ## Build Boot Stick for Host
 
 ```shell
