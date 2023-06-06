@@ -6,42 +6,47 @@ import pandas as pd
 from pathlib import Path
 import csv
 import copy
+import json
 
 script_path = os.path.abspath(os.path.dirname(__file__))
 configuration = None
 
 
-def get_physical_hosts(hosts: pd.DataFrame):
-    df = get_configuration()
-    # TODO:
+def write_as_yaml(path: str = None):
+    if path != None or path == "":
+        Path(path).touch()
+        path = open(path, "a")
+    else:
+        path = sys.stdout
+    print(yaml.dump(configuration, explicit_start=True), file=path)
 
 
-def write_as_yaml():
-    print(yaml.dump(configuration, default_flow_style=False,
-                    explicit_start=True))
-
-
-def load_plans(dir: Path):
+def load_plans(path: str):
     global configuration
-    hosts = read_csv(dir/'hosts.csv')
-    containers = read_csv(dir/'k3s.csv')
-    initContainer = check_containers(containers)
-    secrets = read_csv(dir/'secrets.csv')
+    path = Path(path)
+    hosts = read_csv(path/'hosts.csv')
+    containers = read_csv(path/'k3s.csv')
+    init_container = check_containers(containers)
+    secrets = read_csv(path/'secrets.csv')
+    host_dict = {}
+    # reformat csv data to a nix style dict
     for host in hosts:
-        format_host(host)
         k3s = get_host_containers(host["name"], containers)
+        k3s_dict = {}
         for container in k3s:
             format_container(container)
-        host["k3s"] = k3s
+            k3s_dict.update(container)
+        host["k3s"] = k3s_dict
+        format_host(host)
+        host_dict.update(host)
     configuration = {
         "cluster": {
-            "hosts": hosts,
+            "hosts": host_dict,
             "init": {
-                "ip": initContainer["server"]["ip"]
+                "ip": init_container["server"]["ip"]
             }
         },
     }
-    print("")
 
 
 def check_containers(containers):
@@ -97,11 +102,16 @@ def format_container(container: dict):
 
 
 def format_host(host: dict):
-    adminName = host["admin"]
+    admin_name = host["admin"]
     host['admin'] = {
-        "name": adminName,
+        "name": admin_name,
         "hashedPwd": get_admin_password(host["name"]),
     }
+    host_name = host["name"]
+    host.pop("name")
+    backup = copy.deepcopy(host)
+    host.clear()
+    host[host_name] = backup
 
 
 def get_admin_password(hostname: str):
@@ -111,25 +121,33 @@ def get_admin_password(hostname: str):
 def get_configuration():
     global configuration
     if configuration == None:
-        print >> sys.stderr, "Error: access to uninitialized configuration"
+        print("Error: access to uninitialized configuration", file=sys.stderr)
         sys.exit(1)
     else:
         return configuration
 
 
-def read_csv(file: Path):
-    csvData = []
-    with open(file, newline='') as csvfile:
-        reader = csv.DictReader(csvfile)
+def read_csv(file: str):
+    csv_data = []
+    with open(file, newline='') as csv_file:
+        reader = csv.DictReader(csv_file)
         for row in reader:
             # strip whitespace and normalize to lower case
             row = {k.strip().lower(): removew(v)
                    if isinstance(v, dict)
                    else v.strip().lower()
                    for k, v in row.items()}
-            csvData.append(row)
-    return csvData
+            csv_data.append(row)
+    return csv_data
 
 
-load_plans(Path('examples/plans'))
-write_as_yaml()
+def to_json():
+    return json.dumps(get_configuration(), indent=1)
+
+
+# path = None
+# if len(sys.argv) > 1:
+#     path = sys.argv[1]
+# load_plans('examples/plans')
+# # write_as_yaml(path)
+# print(to_json())
