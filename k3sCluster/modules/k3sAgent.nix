@@ -15,7 +15,7 @@ in {
     # create macvlan for worker node if absent
     preStart =
       "${pkgs.podman}/bin/podman network exists ${workerName}-macvlan ||  ${pkgs.podman}/bin/podman network create --driver=macvlan --gateway=${config.gateway} --subnet=${subnet} -o parent=${host_interface} ${workerName}-macvlan";
-      TODO: querry the init server host! for the token file
+      # FIXME: querry the init server host! for the token file
     unitConfig = {
       ConditionPathExists = tokenFilePath;
     };

@@ -1,12 +1,13 @@
+import sys
+
+import yaml
 import configuration
 from jinja2 import Template
 import json
 
 
-def write_hive_nix(plan_dir: str):
-    configuration.load_plans(plan_dir)
-    config = configuration.get_configuration()
-    nix_config = "{\n"
+def get_hive_nix(config: dict):
+    nix_config = "# This is an auto generated file.\n{\n"
     for host, values in config["cluster"]["hosts"].items():
         server_module, agent_module = "", ""
         if "server" in values["k3s"]:
@@ -42,8 +43,8 @@ def populate_host(vars):
 {{customModule}}\
       ];\n\
     deployment.targetHost = \"{{ip}}\";\n\
-    cluster.hostname = \"{{hostname}}\";\n\
-    cluster = builtins.fromJSON(''\n\
+    cluster = {hostname = \"{{hostname}}\";}//\n\
+        builtins.fromJSON(''\n\
 {{hostConfig}}\n\
     '');\n\
   };\n\
@@ -51,5 +52,14 @@ def populate_host(vars):
     return Template(hostTemplate).render(vars)
 
 
-# configuration.write_as_yaml()
-print(write_hive_nix("examples/plans"))
+def main(yaml_str: str):
+    config = yaml.safe_load(yaml_str)
+    return get_hive_nix(config)
+
+
+if __name__ == "__main__":
+    # read yaml config from stdin
+    input = ""
+    for line in sys.stdin:
+        input += line
+    print(main(input))

@@ -12,13 +12,8 @@ script_path = os.path.abspath(os.path.dirname(__file__))
 configuration = None
 
 
-def write_as_yaml(path: str = None):
-    if path != None or path == "":
-        Path(path).touch()
-        path = open(path, "a")
-    else:
-        path = sys.stdout
-    print(yaml.dump(configuration, explicit_start=True), file=path)
+def get_yaml():
+    return yaml.dump(configuration, explicit_start=True)
 
 
 def load_plans(path: str):
@@ -145,9 +140,14 @@ def to_json():
     return json.dumps(get_configuration(), indent=1)
 
 
-# path = None
-# if len(sys.argv) > 1:
-#     path = sys.argv[1]
-# load_plans('examples/plans')
-# # write_as_yaml(path)
-# print(to_json())
+def main(path: Path = None):
+    if path == None:
+        path = Path().cwd()/"plans"
+    load_plans(path)
+    return get_yaml()
+
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        path = Path(sys.argv[1])
+    print(main(path))

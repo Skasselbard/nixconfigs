@@ -19,12 +19,14 @@ with pkgs; {
       };
     };
   };
-  users.extraUsers = with config.cluster.admin; {
-    "${name}" = {
-      isNormalUser = true;
-      extraGroups = [ "wheel" ];
-      hashedPassword = hashedPwd;
-      openssh.authorizedKeys.keys = sshKeys;
+  config = {
+    users.extraUsers = with config.cluster.admin; {
+      "${name}" = {
+        isNormalUser = true;
+        extraGroups = [ "wheel" ];
+        hashedPassword = hashedPwd;
+        openssh.authorizedKeys.keys = sshKeys;
+      };
     };
   };
 }
