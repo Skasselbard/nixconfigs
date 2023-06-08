@@ -14,7 +14,7 @@ with pkgs; {
         default = null;
       };
       sshKeys = mkOption {
-        type = listOf.str;
+        type = listOf str;
         default = [ ];
       };
     };

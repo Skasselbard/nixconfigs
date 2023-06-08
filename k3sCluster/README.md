@@ -19,6 +19,8 @@ The configuration is a set of csv tables which also document your deployments.
 ## Non Goals
 
 - Configure Kubernetes and Container Apps
+- configure non essential network like additional firewall rules
+  - these can be added in the custom nix configs for the hosts
 - Cluster Access from the internet
   - you should be able to extend the NixOS config for that purpose though
 - Automatic updates
@@ -80,7 +82,10 @@ TODO: Link to create a repo from folder.
 - TODO: work out versions
 - TODO: work out network.yaml / global config
 - TODO: additional keys in the csv files will be added to the nix configuration
-  - they probably need to be a defined option somewhere?
+  - host keys go to cluster.${hostname}.${keyName}
+  - k3s keys go to cluster.${hostname}.k3s.server
+    - agents are podman containers and cannot be modified by nix
+  - they need to be a defined option in a nixConfig for all hosts
 
 - :bulb: all values are stripped of whitespace and normalize to lowercase letters (=> not case sensitive)
 - you can extend the plans to your liking if you like to store additional data as long as the needed keys are present

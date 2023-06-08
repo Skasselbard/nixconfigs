@@ -31,15 +31,15 @@ def load_plans(path: str):
         for container in k3s:
             format_container(container)
             k3s_dict.update(container)
+        k3s_dict["init"] = {
+            "ip": init_container["server"]["ip"],
+        }
         host["k3s"] = k3s_dict
         format_host(host)
         host_dict.update(host)
     configuration = {
         "cluster": {
             "hosts": host_dict,
-            "init": {
-                "ip": init_container["server"]["ip"]
-            }
         },
     }
 
@@ -148,6 +148,7 @@ def main(path: Path = None):
 
 
 if __name__ == "__main__":
+    path = None
     if len(sys.argv) > 1:
         path = Path(sys.argv[1])
     print(main(path))
