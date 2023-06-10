@@ -78,7 +78,16 @@ TODO: Link to create a repo from folder.
 - k3s container and network configuration -> k3s.csv
 - additional nix config in "TODO" subfolder
   - the config is selected by name e.g. host/container "olaf" -> olaf.nix
-- TODO: work out secrets
+- There are X kinds of secrets
+  - passwd
+    - secrets/passwd is used for all hosts with no {hostname}passwd file
+    - secrets/{hostname}passwd is used for {hostname} and takes precedence over passwd file
+  - init-token
+    - is generated during the build process and stored in the secrets folder
+    - used to connect nodes to the initial k3s server
+  - ssh keys
+    - end on .pub
+    - TODO moa ssh
 - TODO: work out versions
 - TODO: work out network.yaml / global config
 - TODO: additional keys in the csv files will be added to the nix configuration
@@ -89,6 +98,7 @@ TODO: Link to create a repo from folder.
 
 - :bulb: all values are stripped of whitespace and normalize to lowercase letters (=> not case sensitive)
 - you can extend the plans to your liking if you like to store additional data as long as the needed keys are present
+- it should be possible to extend (k3s) config of the k3s server with a config file
 
 ### Example
 Check the [examples](/exampls/plans) folder.

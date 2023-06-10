@@ -10,9 +10,19 @@ let
 
   # Stage 1
   #######################
+  create-token = pkgs.writeShellScriptBin "create-token" ''
+    export NIX_CONFIG="tarball-ttl = 0"
+    secrets=./secrets
+    if [ "$#" -gt 0 ]; then
+      secrets=$1/secrets
+    fi
+    mkdir -p $secrets
+    ${pkgs.k3s}/bin/k3s token create > $secrets/init-token
+  '';
   build = pkgs.writeShellScriptBin "build" ''
     export NIX_CONFIG="tarball-ttl = 0"
-    python3 scripts/configuration.py examples/plans | python3 scripts/hive_nix_setup.py ./examples/nixConfigs > hive.nix && colmena build -f hive.nix
+    create-token examples
+    python3 scripts/configuration.py examples | python3 scripts/hive_nix_setup.py ./examples/nixConfigs > hive.nix && colmena build -f hive.nix
   '';
   deploy = pkgs.writeShellScriptBin "deploy" ''
     export NIX_CONFIG="tarball-ttl = 0"
@@ -21,12 +31,14 @@ let
 
 in pkgs.mkShell {
   buildInputs = with pkgs; [
-    # software for deployment
+    # software
     colmena
-    nixos-generators
+    k3s
+    #nixos-generators
     # scripts
     # create_image
     # create_boot_stick
+    create-token
     build
     deploy
   ];

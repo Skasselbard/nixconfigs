@@ -1,6 +1,8 @@
 { pkgs, config, lib, ... }:
 with config.cluster;
-with lib; {
+with lib; let 
+  tokenFilePath = "/var/lib/rancher/k3s/server/token";
+in {
   # delay the etcd container until the network is set up
   # Sometimes the network service crashes. Restarting the network service in the container (from the host with nixos-container) fixes this issue
   systemd.services = {
@@ -33,21 +35,12 @@ with lib; {
             enable = true;
             role = "server";
             disableAgent = true;
-            extraFlags = concatStringsSep " \\\n "
-              ([ "--node-ip ${k3s.server.ip}" ]
-                ++ (optional (k3s.init.ip == k3s.server.ip) " --cluster-init")
-                # TODO:
-                #  ++ [ cfg.extraFlags ]
-              );
-            # clusterInit = mkIf (k3s.init.ip == k3s.server.ip) true;
+            clusterInit = mkIf (k3s.init.ip == k3s.server.ip) true;
             serverAddr = mkIf (k3s.init.ip != k3s.server.ip) k3s.init.ip;
+            extraFlags = "--node-ip ${k3s.server.ip}";
           };
-          # environment.etc."rancher/k3s/config.yaml" = {
-          #   source = ../kubernetes/server-config.yaml;
-          # };
           environment.systemPackages = [ pkgs.k3s ];
           security.sudo.extraConfig = ''
-            ${config.cluster.admin.name} ALL = NOPASSWD: ${pkgs.coreutils-full}/bin/cat /var/lib/rancher/k3s/server/token
             ${config.cluster.admin.name} ALL = NOPASSWD: ${pkgs.k3s}/bin/k3s
           '';
         };
@@ -55,12 +48,13 @@ with lib; {
       macvlans = [ interface ];
       autoStart = true;
       # TODO: logs https://docs.k3s.io/faq#where-are-the-k3s-logs
-      # bindMounts = {
+      bindMounts = {
+        "${tokenFilePath}".hostPath = tokenFilePath;
       #   "/var/lib/rancher/k3s/server/manifests/dashboard.yaml".hostPath =
       #     "${../../Stage_3/dashboard.yaml}";
       #   "/var/lib/rancher/k3s/server/manifests/argocd.yaml".hostPath =
       #     "${../../Stage_3/argocd.yaml}";
-      # };
+      };
     };
   };
 }

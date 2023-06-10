@@ -10,6 +10,7 @@ import json
 
 script_path = os.path.abspath(os.path.dirname(__file__))
 configuration = None
+secrets_dir: Path = None
 
 
 def get_yaml():
@@ -18,11 +19,12 @@ def get_yaml():
 
 def load_plans(path: str):
     global configuration
+    global secrets_dir
     path = Path(path)
-    hosts = read_csv(path/'hosts.csv')
-    containers = read_csv(path/'k3s.csv')
+    hosts = read_csv(path / "plans/hosts.csv")
+    containers = read_csv(path / "plans/k3s.csv")
     init_container = check_containers(containers)
-    secrets = read_csv(path/'secrets.csv')
+    secrets_dir = path / "secrets"
     host_dict = {}
     # reformat csv data to a nix style dict
     for host in hosts:
@@ -40,6 +42,7 @@ def load_plans(path: str):
     configuration = {
         "cluster": {
             "hosts": host_dict,
+            "token": get_init_token(),
         },
     }
 
@@ -70,11 +73,14 @@ def get_host_containers(hostname: str, containers: list):
             match_indices.append(i)
     if len(matches) > 2:
         print(
-            f"Error: {hostname} has more than two k3s containers defined", file=sys.stderr)
+            f"Error: {hostname} has more than two k3s containers defined",
+            file=sys.stderr,
+        )
         sys.exit(1)
     if len(matches) == 2 and matches[0]["type"] == matches[1]["type"]:
         print(
-            f"Error: k3s containers for {hostname} have the same type", file=sys.stderr)
+            f"Error: k3s containers for {hostname} have the same type", file=sys.stderr
+        )
         sys.exit(1)
     for container in matches:
         container.pop("host")
@@ -98,7 +104,7 @@ def format_container(container: dict):
 
 def format_host(host: dict):
     admin_name = host["admin"]
-    host['admin'] = {
+    host["admin"] = {
         "name": admin_name,
         "hashedPwd": get_admin_password(host["name"]),
     }
@@ -109,8 +115,24 @@ def format_host(host: dict):
     host[host_name] = backup
 
 
+def get_init_token():
+    token_path = secrets_dir / "init-token"
+    if not token_path.exists():
+        print(f"Error: {token_path} does not exists", file=sys.stderr)
+        sys.exit(1)
+    if not token_path.is_file():
+        print(f"Error: {token_path} is not a file", file=sys.stderr)
+        sys.exit(1)
+    return token_path.read_text()
+
+
 def get_admin_password(hostname: str):
-    return "NOT IMPLEMENTED"
+    passwd_path = secrets_dir / "passwd"
+    special_path = secrets_dir / f"{hostname}_passwd"
+    if special_path.exists():
+        return special_path.read_text()
+    else:
+        return passwd_path.read_text()
 
 
 def get_configuration():
@@ -124,14 +146,16 @@ def get_configuration():
 
 def read_csv(file: str):
     csv_data = []
-    with open(file, newline='') as csv_file:
+    with open(file, newline="") as csv_file:
         reader = csv.DictReader(csv_file)
         for row in reader:
             # strip whitespace and normalize to lower case
-            row = {k.strip().lower(): removew(v)
-                   if isinstance(v, dict)
-                   else v.strip().lower()
-                   for k, v in row.items()}
+            row = {
+                k.strip().lower(): removew(v)
+                if isinstance(v, dict)
+                else v.strip().lower()
+                for k, v in row.items()
+            }
             csv_data.append(row)
     return csv_data
 
@@ -142,7 +166,7 @@ def to_json():
 
 def main(path: Path = None):
     if path == None:
-        path = Path().cwd()/"plans"
+        path = Path().cwd()
     load_plans(path)
     return get_yaml()
 

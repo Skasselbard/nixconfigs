@@ -1,11 +1,9 @@
 { pkgs, config, ... }:
 with config.cluster;
 let
-  etcdName = "";
   subnet = "";
   k3sVersionTag = "";
-  gateway = "";
-  tokenFilePath = "/var/lib/nixos-containers/${etcdName}/var/lib/rancher/k3s/server/token";
+  tokenFilePath = "/var/lib/rancher/k3s/server/token";
 in with config.cluster;{
   # delay worker service until k3s token is initialized
   systemd.services."podman-${k3s.agent.name}" = {
@@ -26,7 +24,7 @@ in with config.cluster;{
       image = "rancher/k3s:${k3sVersionTag}";
       cmd = [
         "agent"
-        "--token-file=/var/lib/rancher/k3s/server/token"
+        "--token-file=${tokenFilePath}"
         "--server=https://${k3s.init.ip}:6443"
         "--node-external-ip=${k3s.agent.ip}"
       ];
@@ -38,7 +36,7 @@ in with config.cluster;{
         # "--mac-address=MAC"
       ];
       volumes = [
-        "${tokenFilePath}:/var/lib/rancher/k3s/server/token"
+        "${tokenFilePath}:/${tokenFilePath}"
       ];
     };
   };
