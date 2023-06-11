@@ -1,6 +1,6 @@
-name, interface, ip, gateway, admin
-olaf, enp0s20f0, 10.0.100.2, 10.0.100.1, manfred
-ulf, enp1s0, 10.0.100.3, 10.0.100.1, manfred
-rolf, eno2, 10.0.100.4, 10.0.100.1, manfred
-karl, eni1, 10.0.100.5, 10.0.100.1, manfred
-ulrich, eno1, 10.0.100.6, 10.0.100.1, manfred
+name, interface, ip, admin
+olaf, enp0s20f0, 10.0.100.2, manfred
+ulf, enp1s0, 10.0.100.3, manfred
+rolf, eno2, 10.0.100.4, manfred
+karl, eni1, 10.0.100.5, manfred
+ulrich, eno1, 10.0.100.6, manfred

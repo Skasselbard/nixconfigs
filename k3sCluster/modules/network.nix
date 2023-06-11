@@ -6,6 +6,8 @@ with lib; {
       ip = mkOption { type = str; };
       interface = mkOption { type = str; };
       gateway = mkOption { type = str; };
+      subnet = mkOption{type = str;};
+      netmask = mkOption{type = int;};
       # nameservers = mkOption {
       #   type = listOf str;
       #   default = [ "8.8.8.8" ];
@@ -26,7 +28,7 @@ with lib; {
       interfaces.vlan1 = {
         ipv4.addresses = [{
           address = ip;
-          prefixLength = 24; # TODO: make configurable
+          prefixLength = netmask; # TODO: make configurable
         }];
       };
       defaultGateway = {

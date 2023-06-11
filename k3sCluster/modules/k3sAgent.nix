@@ -9,7 +9,7 @@ in with config.cluster;{
   systemd.services."podman-${k3s.agent.name}" = {
     # create macvlan for worker node if absent
     preStart =
-      "${pkgs.podman}/bin/podman network exists ${k3s.agent.name}-macvlan ||  ${pkgs.podman}/bin/podman network create --driver=macvlan --gateway=${gateway} --subnet=${subnet} -o parent=${interface} ${k3s.agent.name}-macvlan";
+      "${pkgs.podman}/bin/podman network exists ${k3s.agent.name}-macvlan ||  ${pkgs.podman}/bin/podman network create --driver=macvlan --gateway=${gateway} --subnet=${subnet}/${builtins.toString netmask} -o parent=${interface} ${k3s.agent.name}-macvlan";
       # FIXME: querry the init server host! for the token file
     unitConfig = {
       ConditionPathExists = tokenFilePath;

@@ -7,6 +7,7 @@ from pathlib import Path
 import csv
 import copy
 import json
+import ipaddress
 
 script_path = os.path.abspath(os.path.dirname(__file__))
 configuration = None
@@ -21,6 +22,7 @@ def load_plans(path: str):
     global configuration
     global secrets_dir
     path = Path(path)
+    network = yaml.safe_load(open(path / "plans/network.yaml"))
     hosts = read_csv(path / "plans/hosts.csv")
     containers = read_csv(path / "plans/k3s.csv")
     init_container = check_containers(containers)
@@ -28,6 +30,13 @@ def load_plans(path: str):
     host_dict = {}
     # reformat csv data to a nix style dict
     for host in hosts:
+        host["subnet"] = str(
+            ipaddress.ip_network(
+                f"{host['ip']}/{network['netmask']}", strict=False
+            ).hostmask
+        )
+        host["netmask"] = int(network["netmask"])
+        host["gateway"] = network["gateway"]
         k3s = get_host_containers(host["name"], containers)
         k3s_dict = {}
         for container in k3s:
@@ -107,6 +116,7 @@ def format_host(host: dict):
     host["admin"] = {
         "name": admin_name,
         "hashedPwd": get_admin_password(host["name"]),
+        "sshKeys": get_ssh_keys(host["name"]),
     }
     host_name = host["name"]
     host.pop("name")
@@ -133,6 +143,17 @@ def get_admin_password(hostname: str):
         return special_path.read_text()
     else:
         return passwd_path.read_text()
+
+
+def get_ssh_keys(hostname: str):
+    keys = []
+    keys.extend(secrets_dir.glob("*all*.pub"))
+    keys.extend(secrets_dir.glob("*All*.pub"))
+    keys.extend(secrets_dir.glob("*ALL*.pub"))
+    keys.extend(secrets_dir.glob(f"*{hostname}*.pub"))
+    if len(keys) == 0:
+        print(f"Warning: no ssh keys found for host {hostname}", file=sys.stderr)
+    return [key.read_text() for key in keys]
 
 
 def get_configuration():

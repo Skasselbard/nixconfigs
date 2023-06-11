@@ -1,4 +1,3 @@
-pandas
 pathlib
 pyyaml
 argparse
