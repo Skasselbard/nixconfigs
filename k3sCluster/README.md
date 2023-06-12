@@ -55,6 +55,9 @@ The following assumptions may be of interest:
   - All k3s-servers run the same NixOs version
   - All k3s-agents run the same Kubernetes image
 
+No data folders are mounted for the containers.
+Deleting the Container deletes all Kubernetes data on the host.
+
 ## Requirements
 
 - Internet access
@@ -95,6 +98,9 @@ TODO: Link to create a repo from folder.
   - k3s keys go to cluster.${hostname}.k3s.server
     - agents are podman containers and cannot be modified by nix
   - they need to be a defined option in a nixConfig for all hosts
+- Manifests will be deployed to all servers
+  - it is not advised to manually edit the manifests, because conflicts may arise
+  - k3s does not resolve conflicting manifest files on multiple servers
 
 - :bulb: all values are stripped of whitespace and normalize to lowercase letters (=> not case sensitive)
 - you can extend the plans to your liking if you like to store additional data as long as the needed keys are present

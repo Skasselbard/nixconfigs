@@ -12,6 +12,7 @@ import ipaddress
 script_path = os.path.abspath(os.path.dirname(__file__))
 configuration = None
 secrets_dir: Path = None
+base_path = None
 
 
 def get_yaml():
@@ -21,12 +22,13 @@ def get_yaml():
 def load_plans(path: str):
     global configuration
     global secrets_dir
-    path = Path(path)
-    network = yaml.safe_load(open(path / "plans/network.yaml"))
-    hosts = read_csv(path / "plans/hosts.csv")
-    containers = read_csv(path / "plans/k3s.csv")
+    global base_path
+    base_path = Path(path)
+    network = yaml.safe_load(open(base_path / "plans/network.yaml"))
+    hosts = read_csv(base_path / "plans/hosts.csv")
+    containers = read_csv(base_path / "plans/k3s.csv")
     init_container = check_containers(containers)
-    secrets_dir = path / "secrets"
+    secrets_dir = base_path / "secrets"
     host_dict = {}
     # reformat csv data to a nix style dict
     for host in hosts:
@@ -109,6 +111,7 @@ def format_container(container: dict):
         container["agent"] = backup
     else:
         container["server"] = backup
+        container["server"]["manifests"] = get_manifests()
 
 
 def format_host(host: dict):
@@ -154,6 +157,11 @@ def get_ssh_keys(hostname: str):
     if len(keys) == 0:
         print(f"Warning: no ssh keys found for host {hostname}", file=sys.stderr)
     return [key.read_text() for key in keys]
+
+
+def get_manifests():
+    manifests = (base_path / "manifests").iterdir()
+    return [f"{manifest}" for manifest in manifests]
 
 
 def get_configuration():

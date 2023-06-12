@@ -1,6 +1,8 @@
 { pkgs, config, lib, ... }:
 with config.cluster;
-with lib; let 
+with lib; 
+with builtins;
+let 
   tokenFilePath = "/var/lib/rancher/k3s/server/token";
 in {
   # delay the etcd container until the network is set up
@@ -12,7 +14,7 @@ in {
   # TODO: fix nix version for k3s
   containers = {
     "${k3s.server.name}" = let
-      pkgs = import (builtins.fetchGit {
+      pkgs = import (fetchGit {
         url = "https://github.com/NixOS/nixpkgs";
         ref = "refs/heads/nixos-23.05";
       }) { };
@@ -21,7 +23,7 @@ in {
         imports = [ ]
           ++ optional (k3s.server.extraConfig != null) k3s.server.extraConfig;
         config = {
-          # nixpkgs.pkgs = (import (builtins.fetchGit {
+          # nixpkgs.pkgs = (import (fetchGit {
           # url = "https://github.com/NixOS/nixpkgs";
           # ref = "refs/heads/nixos-23.05";
           # }) { }).pkgs;
@@ -49,12 +51,19 @@ in {
       autoStart = true;
       # TODO: logs https://docs.k3s.io/faq#where-are-the-k3s-logs
       bindMounts = {
-        "${tokenFilePath}".hostPath = tokenFilePath;
+        "${tokenFilePath}".hostPath = tokenFilePath; 
       #   "/var/lib/rancher/k3s/server/manifests/dashboard.yaml".hostPath =
       #     "${../../Stage_3/dashboard.yaml}";
       #   "/var/lib/rancher/k3s/server/manifests/argocd.yaml".hostPath =
       #     "${../../Stage_3/argocd.yaml}";
-      };
+      } //
+      listToAttrs (map (elem: {
+          name = baseNameOf elem;
+          value = {
+            mountPoint = "/var/lib/rancher/k3s/server/manifests" + baseNameOf elem;
+            hostPath = "${../. + ("/"+ elem)}";
+          };
+        }) k3s.server.manifests);
     };
   };
 }
