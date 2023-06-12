@@ -2,7 +2,6 @@ from pathlib import Path
 import sys
 
 import yaml
-import configuration
 from jinja2 import Template
 import json
 

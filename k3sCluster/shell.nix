@@ -11,7 +11,6 @@ let
   # Stage 1
   #######################
   create-token = pkgs.writeShellScriptBin "create-token" ''
-    export NIX_CONFIG="tarball-ttl = 0"
     secrets=./secrets
     if [ "$#" -gt 0 ]; then
       secrets=$1/secrets
@@ -19,14 +18,31 @@ let
     mkdir -p $secrets
     ${pkgs.k3s}/bin/k3s token create > $secrets/init-token
   '';
+  configure = pkgs.writeShellScriptBin "configure" ''
+    path=$PWD
+    if [ "$#" -gt 0 ]; then
+      path=$1
+    fi
+    create-token $path
+    python3 scripts/configuration.py $path | python3 scripts/hive_nix_setup.py ./$path/nixConfigs > hive.nix
+    '';
   build = pkgs.writeShellScriptBin "build" ''
     export NIX_CONFIG="tarball-ttl = 0"
-    create-token examples
-    python3 scripts/configuration.py examples | python3 scripts/hive_nix_setup.py ./examples/nixConfigs > hive.nix && colmena build -f hive.nix
+    path=$PWD
+    if [ "$#" -gt 0 ]; then
+      path=$1
+    fi
+    configure $path
+    colmena build -f hive.nix
   '';
   deploy = pkgs.writeShellScriptBin "deploy" ''
     export NIX_CONFIG="tarball-ttl = 0"
-    colmena apply -f ./hive/hive.nix
+    path=$PWD
+    if [ "$#" -gt 0 ]; then
+      path=$1
+    fi
+    configure $path
+    colmena apply -f hive.nix
   '';
 
 in pkgs.mkShell {
@@ -36,6 +52,7 @@ in pkgs.mkShell {
     k3s
     #nixos-generators
     # scripts
+    configure
     # create_image
     # create_boot_stick
     create-token
