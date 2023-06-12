@@ -40,6 +40,7 @@ in {
         users = listToAttrs (map (elem: {
           name = elem;
           value = {
+            stateVersion = "23.05";
             programs = {
               git = {
                 enable = true;
