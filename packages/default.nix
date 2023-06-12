@@ -1,7 +1,7 @@
 { lib, pkgs, config, ... }:
 let
   home-manager = builtins.fetchTarball
-    "https://github.com/nix-community/home-manager/archive/release-22.05.tar.gz";
+    "https://github.com/nix-community/home-manager/archive/release-23.05.tar.gz";
 in {
   imports =
     [ ./ssh.nix ./prometheus.nix (import "${home-manager}/nixos") ];
