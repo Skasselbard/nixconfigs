@@ -1,4 +1,7 @@
-{config, pkgs, ... }:
+{ lib, config, pkgs, ... }:
+
+with builtins;
+with lib;
 with pkgs;{ 
   imports = [
     ./physical_machines/boot.nix
