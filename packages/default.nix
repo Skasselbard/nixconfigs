@@ -7,7 +7,7 @@ in {
     [ 
       ./shell.nix 
       # ./ssh.nix 
-      # ./prometheus.nix 
+      ./prometheus.nix 
       (import "${home-manager}/nixos") 
       ];
 
