@@ -8,7 +8,7 @@ in {
       # ./shell.nix 
       # ./ssh.nix 
       # ./prometheus.nix 
-      # (import "${home-manager}/nixos") 
+      (import "${home-manager}/nixos") 
       ];
 
   options = with lib;
