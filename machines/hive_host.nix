@@ -4,8 +4,9 @@
     ./physical_machines/partitioning.nix
     ../.
   ];
-  users.extraUsers.root.shell = zsh;
-  users.extraUsers = listToAttrs (map (elem: {
+  users.extraUsers = 
+    {root.shell = zsh;} //
+    listToAttrs (map (elem: {
       name = elem;
       value = {
         shell = zsh;
