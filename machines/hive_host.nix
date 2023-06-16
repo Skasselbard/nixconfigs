@@ -1,4 +1,5 @@
-{ 
+{config, pkgs, ... }:
+with pkgs;{ 
   imports = [
     ./physical_machines/boot.nix
     ./physical_machines/partitioning.nix
