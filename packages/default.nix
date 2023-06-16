@@ -5,7 +5,7 @@ let
 in {
   imports =
     [ 
-      # ./shell.nix 
+      ./shell.nix 
       # ./ssh.nix 
       # ./prometheus.nix 
       (import "${home-manager}/nixos") 
