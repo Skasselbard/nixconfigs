@@ -2,6 +2,8 @@
 {
   imports = [
     ./physical_machines
-    ../default.nix
+    ../.
+    ../users
+    ../packages/ssh
   ];
 }
