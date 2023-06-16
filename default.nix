@@ -3,7 +3,6 @@
 {
   imports = [
     <nixpkgs/nixos/modules/profiles/minimal.nix>
-    ./users
     ./packages
     ./locale.nix
   ];

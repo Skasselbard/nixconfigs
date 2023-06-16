@@ -4,7 +4,7 @@ let
     "https://github.com/nix-community/home-manager/archive/release-23.05.tar.gz";
 in {
   imports =
-    [ ./ssh.nix ./prometheus.nix (import "${home-manager}/nixos") ];
+    [ ./shell.nix ./ssh.nix ./prometheus.nix (import "${home-manager}/nixos") ];
 
   options = with lib;
     with types; {

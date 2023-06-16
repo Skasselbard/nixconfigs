@@ -18,8 +18,6 @@ with pkgs; {
     };
   };
 
-  imports = [ ../packages/shell.nix ];
-
   config = {
     users.mutableUsers = false;
     users.extraUsers = {
