@@ -1,4 +1,4 @@
-{ modulesPath, ... }:
+{ lib, modulesPath, ... }:
 {
   imports = [ (modulesPath + "/profiles/qemu-guest.nix") ];
   boot.loader = {
@@ -6,7 +6,7 @@
       version = 2;
       device = "/dev/vda";
     };
-    timeout = 0;
+    lib.mkDefault timeout = 0;
   };
   boot.initrd.availableKernelModules =
     [ 
