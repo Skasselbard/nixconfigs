@@ -6,7 +6,7 @@
       version = 2;
       device = "/dev/vda";
     };
-    lib.mkDefault timeout = 0;
+    timeout = lib.mkDefault 0;
   };
   boot.initrd.availableKernelModules =
     [ 
