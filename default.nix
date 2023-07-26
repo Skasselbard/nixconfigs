@@ -8,12 +8,12 @@
   ];
 
   # Clean /tmp on boot.
-  boot.cleanTmpDir = true;
+  boot.tmp.cleanOnBoot = true;
 
   # Automatically optimize the Nix store to save space
   # by hard-linking identical files together. These savings
   # add up.
-  nix.autoOptimiseStore = true;
+  nix.settings.auto-optimise-store = true;
 
   # Limit the systemd journal to 100 MB of disk or the
   # last 7 days of logs, whichever happens first.

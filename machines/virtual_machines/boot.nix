@@ -3,7 +3,6 @@
   imports = [ (modulesPath + "/profiles/qemu-guest.nix") ];
   boot.loader = {
     grub = {
-      version = 2;
       device = "/dev/vda";
     };
     timeout = lib.mkDefault 0;
