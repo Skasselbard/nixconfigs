@@ -11,7 +11,7 @@ with lib; {
     };
   };
   # The partitioning has to be done manually first (e.g. with pated)
-  config.fileSystems = {
+  config.fileSystems = lib.mkDefault {
     "/boot" = {
       device = "/dev/disk/by-label/${config.boot-label}";
       fsType = "vfat";
