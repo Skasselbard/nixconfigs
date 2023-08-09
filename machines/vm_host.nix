@@ -1,7 +1,6 @@
-{...}:
-{
+{ ... }: {
   imports = [
-    ./virtual_machines
+    # ./virtual_machines
     ../default.nix
   ];
 }

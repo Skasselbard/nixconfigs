@@ -2,12 +2,10 @@
 
 with lib;
 with pkgs; {
-  #TODO: use home manager?
   # https://nix-community.github.io/home-manager/
 
   options = with types; {
     ## mkpasswd -m sha-512
-    # hashedRootPwd = mkOption{type = types.str;};
     hashedUserPwd = mkOption {
       type = nullOr str;
       default = null;
@@ -16,22 +14,27 @@ with pkgs; {
       type = str;
       default = "";
     };
+    adminUsers = mkOption { # TODO: better var name?
+      type = nullOr (listOf str);
+      description = "List of users with admin priviliges";
+    };
   };
 
   config = {
     users.mutableUsers = false;
-    users.extraUsers = {
-      root = {
-        openssh.authorizedKeys.keys = [ config.sshKey ];
-        shell = zsh;
-      };
-
-      tom = {
-        isNormalUser = true;
+    users.extraUsers = listToAttrs (map (elem: {
+      name = elem;
+      value = {
+        isNormalUser = mkForce true;
         extraGroups = [ "wheel" "docker" "libvirtd" "networkmanager" ];
+        shell = mkForce zsh;
+        hashedPassword = mkDefault config.hashedUserPwd;
+        openssh.authorizedKeys.keys = mkDefault [ config.sshKey ];
+      };
+    }) config.adminUsers) // {
+      root = {
+        openssh.authorizedKeys.keys = mkDefault [ config.sshKey ];
         shell = zsh;
-        hashedPassword = config.hashedUserPwd;
-        openssh.authorizedKeys.keys = [ config.sshKey ];
       };
     };
   };

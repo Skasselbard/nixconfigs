@@ -3,13 +3,12 @@ let
   home-manager = builtins.fetchTarball
     "https://github.com/nix-community/home-manager/archive/release-23.05.tar.gz";
 in {
-  imports =
-    [ 
-      ./shell.nix 
-      # ./ssh.nix 
-      ./prometheus.nix 
-      (import "${home-manager}/nixos") 
-      ];
+  imports = [
+    ./shell.nix
+    # ./ssh.nix 
+    ./prometheus.nix
+    (import "${home-manager}/nixos")
+  ];
 
   options = with lib;
     with types; {
@@ -21,6 +20,13 @@ in {
         description = "List of users the packages are applyied to";
         default = [ "root" ];
       };
+      home-manager-desktop = mkOption {
+        type = attrs;
+        default = {
+          programs = { };
+          services = { };
+        };
+      };
     };
 
   config = with pkgs;
@@ -30,9 +36,11 @@ in {
       # accessible for all
       environment.systemPackages = [
         dmidecode # get bios info e.g. version: dmidecode -t bios
+        docker
         exfatprogs
         git
         htop
+        kubectl
         nixos-generators
         vim
         wget
@@ -46,16 +54,52 @@ in {
           name = elem;
           value = {
             home.stateVersion = "23.05";
-            programs = {
+            services = config.home-manager-desktop.services;
+            programs = config.home-manager-desktop.programs // {
+              bash.enable = true;
+              # dconf.enable = true;
+              nushell.enable = true;
+              zsh = {
+                enable = true;
+                enableAutosuggestions = true;
+                enableCompletion = true;
+                enableSyntaxHighlighting = true;
+                autocd = true;
+                history.expireDuplicatesFirst = true;
+                history.ignoreDups = true;
+                oh-my-zsh = {
+                  enable = true;
+                  theme = "agnoster";
+                  plugins = [
+                    "aws"
+                    "extract"
+                    "npm"
+                    "pip"
+                    "python"
+                    "git"
+                    "catimg"
+                    "command-not-found"
+                    "dirhistory"
+                    "docker"
+                    "adb"
+                    "gradle"
+                    "mvn"
+                    "rust"
+                    "per-directory-history"
+                    "sudo"
+                    "svn"
+                  ];
+                };
+              };
               git = {
                 enable = true;
                 package = gitSVN;
-                # userName = config.gitUser;
+                userName = elem;
                 # userEmail = config.gitMail;
               };
             };
           };
-        }) config.osUsers);
+        }) (config.adminUsers ++ config.osUsers));
       };
     };
 }

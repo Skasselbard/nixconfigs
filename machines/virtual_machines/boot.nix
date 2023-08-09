@@ -1,21 +1,7 @@
-{ lib, modulesPath, ... }:
-{
+{ lib, modulesPath, ... }: {
   imports = [ (modulesPath + "/profiles/qemu-guest.nix") ];
   boot.loader = {
-    grub = {
-      device = "/dev/vda";
-    };
-    timeout = lib.mkDefault 0;
+    grub = { device = "/dev/vda"; };
+    timeout = lib.mkDefault 1;
   };
-  boot.initrd.availableKernelModules =
-    [ 
-      "ata_piix" 
-      "uhci_hcd" 
-      "sr_mod"
-  #   "xhci_pci" 
-  #   "ehci_pci" 
-  #   "ahci" 
-  #   "usbhid" 
-  #   "usb_storage" 
-      ];
 }
