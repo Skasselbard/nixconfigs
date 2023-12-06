@@ -53,7 +53,7 @@ in {
         users = listToAttrs (map (elem: {
           name = elem;
           value = {
-            home.stateVersion = "23.05";
+            home.stateVersion = "23.11";
             services = config.home-manager-desktop.services;
             programs = config.home-manager-desktop.programs // {
               bash.enable = true;

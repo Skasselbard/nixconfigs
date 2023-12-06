@@ -25,6 +25,11 @@ with builtins; {
     zotero
     jabref
     zoom-us
+
+    # discord
+    # kicad
+    # okular
+    # peek
   ];
   home-manager-desktop = {
     programs = {

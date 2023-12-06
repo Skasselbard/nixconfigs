@@ -21,7 +21,7 @@ with pkgs; {
   };
 
   config = {
-    users.mutableUsers = false;
+    users.mutableUsers = mkDefault false;
     users.extraUsers = listToAttrs (map (elem: {
       name = elem;
       value = {
