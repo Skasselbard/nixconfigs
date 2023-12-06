@@ -37,7 +37,7 @@ with builtins; {
       vscode.enable = true;
     };
     services = {
-      flameshot.enable = true;
+      # flameshot.enable = true;
       # keepassx.enable = true;
     };
   };

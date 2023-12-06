@@ -1,7 +1,7 @@
 { lib, pkgs, config, ... }:
 let
   home-manager = builtins.fetchTarball
-    "https://github.com/nix-community/home-manager/archive/release-23.05.tar.gz";
+    "https://github.com/nix-community/home-manager/archive/release-23.11.tar.gz";
 in {
   imports = [
     ./shell.nix
@@ -53,7 +53,7 @@ in {
         users = listToAttrs (map (elem: {
           name = elem;
           value = {
-            home.stateVersion = "23.05";
+            home.stateVersion = "23.11";
             services = config.home-manager-desktop.services;
             programs = config.home-manager-desktop.programs // {
               bash.enable = true;
