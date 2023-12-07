@@ -48,6 +48,7 @@ with builtins; {
           gnomeExtensions.runcat
           gnomeExtensions.kubectl-extension
           gnomeExtensions.color-picker
+          gnomeExtensions.window-state-manager
         ];
         dconf.settings = with pkgs; {
           # gnome shell settings from https://hoverbear.org/blog/declarative-gnome-configuration-in-nixos/
@@ -59,7 +60,6 @@ with builtins; {
               "runcat@kolesnikov.se"
               "Vitals@CoreCoding.com"
               "auto-move-windows@gnome-shell-extensions.gcampax.github.com"
-              "gnomeExtensions.window-state-manager"
             ];
           };
           "org/gnome/shell/extensions/dash-to-dock" = {
