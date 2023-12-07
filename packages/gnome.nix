@@ -76,6 +76,11 @@ with builtins; {
             enable-hot-corners = false;
             show-battery-percentage = true;
           };
+          "/org/gnome/desktop/session" = { idle-delay = 0; }; # screen fade
+          "/org/gnome/settings-daemon/plugins/power" = {
+            sleep-inactive-ac-type = "suspend";
+            sleep-inactive-ac-timeout = 21600; # 6h
+          };
           "org/gnome/desktop/peripherals/keyboard" = { numlock-state = true; };
           "system/locale" = { region = "de_DE.UTF-8"; };
           "org/gnome/shell/extensions/kubectl" = {
@@ -88,6 +93,22 @@ with builtins; {
           "org/gnome/shell/extensions/auto-move-windows" = {
             application-list =
               [ "signal-desktop.desktop:2" "spotify.desktop:2" ];
+          };
+          "/org/gnome/shell" = {
+            favorite-apps = [
+              "org.gnome.Nautilus.desktop"
+              "org.gnome.Console.desktop"
+              "firefox.desktop"
+              "signal-desktop.desktop"
+              "code.desktop"
+              "obsidian.desktop"
+              "org.remmina.Remmina.desktop"
+              "virt-manager.desktop"
+              "org.inkscape.Inkscape.desktop"
+              "org.kde.krita.desktop"
+              "com.uploadedlobster.peek.desktop"
+              "spotify.desktop"
+            ];
           };
         }; # dconf.settings
       };
