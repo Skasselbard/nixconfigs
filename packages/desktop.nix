@@ -19,12 +19,12 @@ with builtins; {
     meld # diff viewer
     signal-desktop
     skypeforlinux
-    spotify
+    spotify #TODO: nixos
     virt-manager
     vlc
     zotero
     jabref
-    zoom-us
+    # zoom-us
 
     # discord
     # kicad

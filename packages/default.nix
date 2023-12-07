@@ -38,15 +38,15 @@ in {
         dmidecode # get bios info e.g. version: dmidecode -t bios
         docker
         exfatprogs
-        git
+        git # TODO
         htop
         kubectl
         nixos-generators
         nixfmt
-        vim
+        vim # TODO:
         wget
         yq-go # YAML processor
-        zsh
+        zsh # TODO
         zsh-git-prompt
       ];
       home-manager = {
@@ -58,40 +58,39 @@ in {
             services = config.home-manager-desktop.services;
             programs = config.home-manager-desktop.programs // {
               bash.enable = true;
-              # dconf.enable = true;
               nushell.enable = true;
-              zsh = {
-                enable = true;
-                enableAutosuggestions = true;
-                enableCompletion = true;
-                enableSyntaxHighlighting = true;
-                autocd = true;
-                history.expireDuplicatesFirst = true;
-                history.ignoreDups = true;
-                oh-my-zsh = {
-                  enable = true;
-                  theme = "agnoster";
-                  plugins = [
-                    "aws"
-                    "extract"
-                    "npm"
-                    "pip"
-                    "python"
-                    "git"
-                    "catimg"
-                    "command-not-found"
-                    "dirhistory"
-                    "docker"
-                    "adb"
-                    "gradle"
-                    "mvn"
-                    "rust"
-                    "per-directory-history"
-                    "sudo"
-                    "svn"
-                  ];
-                };
-              };
+              # zsh = {
+              #   enable = true;
+              #   enableAutosuggestions = true;
+              #   enableCompletion = true;
+              #   enableSyntaxHighlighting = true;
+              #   autocd = true;
+              #   history.expireDuplicatesFirst = true;
+              #   history.ignoreDups = true;
+              #   oh-my-zsh = {
+              #     enable = true;
+              #     theme = "agnoster";
+              #     plugins = [
+              #       "aws"
+              #       "extract"
+              #       "npm"
+              #       "pip"
+              #       "python"
+              #       "git"
+              #       "catimg"
+              #       "command-not-found"
+              #       "dirhistory"
+              #       "docker"
+              #       "adb"
+              #       "gradle"
+              #       "mvn"
+              #       "rust"
+              #       "per-directory-history"
+              #       "sudo"
+              #       "svn"
+              #     ];
+              #   };
+              # };
               git = {
                 enable = true;
                 package = gitSVN;
