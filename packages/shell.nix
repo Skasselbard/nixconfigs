@@ -13,7 +13,6 @@
       export POWERLEVEL9K_MODE=nerdfont-complete
       source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
       source ${./p10k.zsh}
-      LINUX_ICON='🐧' # '☢'
       sshamnesia() {
         ssh -o 'UserKnownHostsFile=/dev/null' -o 'StrictHostKeyChecking=no' -o 'LogLevel=ERROR' $1
       }
@@ -52,12 +51,12 @@
         "npm"
         "per-directory-history"
         "pip"
-        "podman"
+        # "podman"
         "python"
         "rust"
         "sudo"
         "svn"
-        "teraform"
+        "terraform"
         "vscode"
       ];
     };

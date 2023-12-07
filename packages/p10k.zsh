@@ -32,7 +32,7 @@
   # The list of segments shown on the left. Fill it with the most important segments.
   typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
     # =========================[ Line #1 ]=========================
-    os_icon                 # os identifier
+    # os_icon                # os identifier
     root_indicator          # superuser status
     context                 # username and host
     ssh                     # Indicates whether or not you are in an SSH session.
@@ -109,16 +109,16 @@
     timewarrior             # timewarrior tracking status (https://timewarrior.net/)
     taskwarrior             # taskwarrior task count (https://taskwarrior.org/)
     # cpu_arch              # CPU architecture
-    time                    # current time
+    date                    # system date
     # =========================[ Line #2 ]=========================
     newline
-    date                    # system date
     # ip                    # ip address and bandwidth usage for a specified network interface
     # public_ip             # public IP address
     # proxy                 # system-wide http/https/ftp proxy
     # battery               # internal battery
     # wifi                  # wifi speed
     # example               # example user-defined segment (see prompt_example function below)
+    time                    # current time
   )
 
   # Defines character set used by powerlevel10k. It's best to let `p10k configure` set it for you.
