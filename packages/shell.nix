@@ -20,7 +20,7 @@
     ];
     ohMyZsh = {
       enable = true;
-      theme = "agnoster";
+      theme = "${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k";
       customPkgs = [ pkgs.zsh-powerlevel10k ];
       plugins = [
         "aws"
