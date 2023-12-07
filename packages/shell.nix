@@ -19,6 +19,9 @@
       source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
       source ${./p10k.zsh}
       LINUX_ICON='🐧' # '☢'
+      sshamnesia() {
+        ssh -o 'UserKnownHostsFile=/dev/null' -o 'StrictHostKeyChecking=no' -o 'LogLevel=ERROR' $1
+      }
     '';
     # autocd = true;
     # options: https://manpages.debian.org/testing/zsh-common/zshoptions.1.en.html
