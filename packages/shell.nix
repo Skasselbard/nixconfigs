@@ -11,13 +11,14 @@
       export POWERLEVEL9K_MODE=nerdfont-complete
       source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
       source ${./p10k.zsh}
-      # LINUX_ICON='☢'
+      LINUX_ICON='☢'
     '';
     # autocd = true;
     # options: https://manpages.debian.org/testing/zsh-common/zshoptions.1.en.html
     shellAliases = {
       sshamnesia = ''
-        ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" -o " LogLevel=ERROR" 192.168.1.2'';
+        ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" -o " LogLevel=ERROR"
+      '';
     };
     setOptions = [
       "HIST_IGNORE_DUPS"
@@ -27,7 +28,7 @@
     ];
     ohMyZsh = {
       enable = true;
-      theme = "zsh-powerlevel10k";
+      theme = "";
       plugins = [
         "aws"
         "extract"
