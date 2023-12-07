@@ -17,7 +17,7 @@
     # options: https://manpages.debian.org/testing/zsh-common/zshoptions.1.en.html
     shellAliases = {
       sshamnesia = ''
-        ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" -o " LogLevel=ERROR"
+        ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" -o "LogLevel=ERROR" $1
       '';
     };
     setOptions = [
