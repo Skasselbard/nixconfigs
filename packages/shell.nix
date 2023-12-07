@@ -3,11 +3,6 @@
   # nushell.enable = true;
   environment = {
     systemPackages = with pkgs; [ nerdfonts zsh-powerlevel10k ];
-    shellAliases = {
-      sshamnesia = ''
-        ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" -o "LogLevel=ERROR" $1
-      '';
-    };
   };
   programs.zsh = {
     enable = true;
