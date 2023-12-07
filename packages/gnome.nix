@@ -76,8 +76,8 @@ with builtins; {
             enable-hot-corners = false;
             show-battery-percentage = true;
           };
-          "/org/gnome/desktop/session" = { idle-delay = 0; }; # screen fade
-          "/org/gnome/settings-daemon/plugins/power" = {
+          "org/gnome/desktop/session" = { idle-delay = 0; }; # screen fade
+          "org/gnome/settings-daemon/plugins/power" = {
             sleep-inactive-ac-type = "suspend";
             sleep-inactive-ac-timeout = 21600; # 6h
           };
@@ -94,7 +94,7 @@ with builtins; {
             application-list =
               [ "signal-desktop.desktop:2" "spotify.desktop:2" ];
           };
-          "/org/gnome/shell" = {
+          "org/gnome/shell" = {
             favorite-apps = [
               "org.gnome.Nautilus.desktop"
               "org.gnome.Console.desktop"
