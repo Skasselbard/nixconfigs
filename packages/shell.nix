@@ -1,7 +1,14 @@
 { pkgs, ... }: {
   # bash.enable = true;
   # nushell.enable = true;
-  environment.systemPackages = with pkgs; [ nerdfonts zsh-powerlevel10k ];
+  environment = {
+    systemPackages = with pkgs; [ nerdfonts zsh-powerlevel10k ];
+    shellAliases = {
+      sshamnesia = ''
+        ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" -o "LogLevel=ERROR" $1
+      '';
+    };
+  };
   programs.zsh = {
     enable = true;
     autosuggestions.enable = true;
@@ -15,11 +22,6 @@
     '';
     # autocd = true;
     # options: https://manpages.debian.org/testing/zsh-common/zshoptions.1.en.html
-    shellAliases = {
-      sshamnesia = ''
-        ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" -o "LogLevel=ERROR" $1
-      '';
-    };
     setOptions = [
       "HIST_IGNORE_DUPS"
       "SHARE_HISTORY"
