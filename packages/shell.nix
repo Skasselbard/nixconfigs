@@ -21,8 +21,8 @@
     ohMyZsh = {
       enable = true;
       theme =
-        "${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
-      customPkgs = [ pkgs.zsh-powerlevel10k ];
+        "powerlevel10k.zsh-theme";
+      custom = [ pkgs.zsh-powerlevel10k ];
       plugins = [
         "aws"
         "extract"
