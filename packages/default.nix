@@ -41,7 +41,6 @@ in {
         git # TODO
         htop
         kubectl
-        nerdfonts
         nixos-generators
         nixfmt
         vim # TODO:
