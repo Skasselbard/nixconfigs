@@ -18,7 +18,7 @@
       export POWERLEVEL9K_MODE=nerdfont-complete
       source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
       source ${./p10k.zsh}
-      LINUX_ICON='☢'
+      LINUX_ICON='🐧' # '☢'
     '';
     # autocd = true;
     # options: https://manpages.debian.org/testing/zsh-common/zshoptions.1.en.html
@@ -32,23 +32,35 @@
       enable = true;
       theme = "";
       plugins = [
+        "adb"
+        "ansible"
+        "argocd"
         "aws"
-        "extract"
-        "npm"
-        "pip"
-        "python"
-        "git"
-        "catimg"
+        "azure"
         "command-not-found"
+        "colored-man-pages"
         "dirhistory"
         "docker"
-        "adb"
+        "docker-compose"
+        "dotnet"
+        "extract"
+        "git"
+        "github"
         "gradle"
+        "helm"
+        "kubectl"
         "mvn"
-        "rust"
+        "node"
+        "npm"
         "per-directory-history"
+        "pip"
+        "podman"
+        "python"
+        "rust"
         "sudo"
         "svn"
+        "teraform"
+        "vscode"
       ];
     };
   };
