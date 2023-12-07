@@ -7,8 +7,13 @@
     autosuggestions.enable = true;
     enableCompletion = true;
     syntaxHighlighting.enable = true;
-    promptInit =
-      "source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
+    promptInit = ''
+      export POWERLEVEL9K_MODE=nerdfont-complete
+      source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
+      POWERLEVEL9K_PROMPT_ON_NEWLINE=true
+      LINUX_ICON='☢'
+      POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon root_indicator context dir rbenv vcs)
+    '';
     # autocd = true;
     # options: https://manpages.debian.org/testing/zsh-common/zshoptions.1.en.html
     shellAliases = {
