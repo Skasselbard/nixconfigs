@@ -59,6 +59,7 @@ with builtins; {
               "runcat@kolesnikov.se"
               "Vitals@CoreCoding.com"
               "auto-move-windows@gnome-shell-extensions.gcampax.github.com"
+              "gnomeExtensions.window-state-manager"
             ];
           };
           "org/gnome/shell/extensions/dash-to-dock" = {

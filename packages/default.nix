@@ -42,6 +42,7 @@ in {
         htop
         kubectl
         nixos-generators
+        nixfmt
         vim
         wget
         yq-go # YAML processor
