@@ -1,5 +1,8 @@
 { pkgs, lib, config, ... }:
-with builtins; {
+with builtins;
+with lib;
+let suspress_idle_loggoff = true;
+in {
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
@@ -43,17 +46,18 @@ with builtins; {
       name = elem;
       value = {
         home.packages = with pkgs; [
-          # gnomeExtensions.forge # window tiling
-          gnomeExtensions.vitals # coretemps etc.
-          gnomeExtensions.runcat
-          gnomeExtensions.kubectl-extension
           gnomeExtensions.color-picker
+          gnomeExtensions.kubectl-extension
+          gnomeExtensions.runcat
+          gnomeExtensions.tiling-assistant
+          gnomeExtensions.vitals # coretemps etc.
           gnomeExtensions.window-state-manager
         ];
         dconf.settings = with pkgs; {
           # gnome shell settings from https://hoverbear.org/blog/declarative-gnome-configuration-in-nixos/
           "org/gnome/shell" = {
             enabled-extensions = [
+              "tiling-assistant@leleat-on-github"
               "places-menu@gnome-shell-extensions.gcampax.github.com"
               "dash-to-dock@micxgx.gmail.com"
               "kubectl@infinicode.de"
@@ -76,11 +80,6 @@ with builtins; {
             color-scheme = "prefer-dark";
             enable-hot-corners = false;
             show-battery-percentage = true;
-          };
-          "org/gnome/desktop/session" = { idle-delay = 0; }; # screen fade
-          "org/gnome/settings-daemon/plugins/power" = {
-            sleep-inactive-ac-type = "suspend";
-            sleep-inactive-ac-timeout = 21600; # 6h
           };
           "org/gnome/desktop/peripherals/keyboard" = { numlock-state = true; };
           "system/locale" = { region = "de_DE.UTF-8"; };
@@ -112,6 +111,22 @@ with builtins; {
             ];
           };
           "org/gnome/mutter" = { edge-tiling = true; };
+          "org/gnome/shell/extensions/tiling-assistant" = {
+            enable-tiling-popup = false;
+            window-gap = 0;
+            single-screen-gap = 0;
+            dynamic-keybinding-behavior = 2;
+            active-window-hint = 1;
+          };
+          "org/gnome/desktop/session" = { idle-delay = 0; }; # screen fade
+          "org/gnome/settings-daemon/plugins/power" =
+            mkIf suspress_idle_loggoff {
+              sleep-inactive-ac-type = "suspend";
+              sleep-inactive-ac-timeout = 21600; # 6h
+            };
+          "org/gnome/desktop/session" = mkIf suspress_idle_loggoff {
+            idle-delay = 21600; # 6h
+          };
         }; # dconf.settings
       };
     }) config.adminUsers);
