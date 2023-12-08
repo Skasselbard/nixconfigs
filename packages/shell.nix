@@ -8,6 +8,7 @@
     enable = true;
     autosuggestions.enable = true;
     enableCompletion = true;
+    enableBashCompletion = true;
     syntaxHighlighting.enable = true;
     promptInit = ''
       export POWERLEVEL9K_MODE=nerdfont-complete
@@ -20,10 +21,11 @@
     # autocd = true;
     # options: https://manpages.debian.org/testing/zsh-common/zshoptions.1.en.html
     setOptions = [
+      "AUTO_CD"
       "HIST_IGNORE_DUPS"
-      "SHARE_HISTORY"
       "HIST_FCNTL_LOCK"
       "HIST_EXPIRE_DUPS_FIRST"
+      "SHARE_HISTORY"
     ];
     ohMyZsh = {
       enable = true;

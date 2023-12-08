@@ -60,6 +60,7 @@ with builtins; {
               "runcat@kolesnikov.se"
               "Vitals@CoreCoding.com"
               "auto-move-windows@gnome-shell-extensions.gcampax.github.com"
+              "window-state-manager@kishorv06.github.io"
             ];
           };
           "org/gnome/shell/extensions/dash-to-dock" = {
@@ -110,6 +111,7 @@ with builtins; {
               "spotify.desktop"
             ];
           };
+          "org/gnome/mutter" = { edge-tiling = true; };
         }; # dconf.settings
       };
     }) config.adminUsers);
