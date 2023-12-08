@@ -118,7 +118,6 @@ in {
             dynamic-keybinding-behavior = 2;
             active-window-hint = 1;
           };
-          "org/gnome/desktop/session" = { idle-delay = 0; }; # screen fade
           "org/gnome/settings-daemon/plugins/power" =
             mkIf suspress_idle_loggoff {
               sleep-inactive-ac-type = "suspend";
