@@ -62,6 +62,7 @@ in {
               zsh = {
                 enable = true;
                 initExtraFirst = "source $ZSH/oh-my-zsh.sh";
+              };
               git = {
                 enable = true;
                 package = gitSVN;
