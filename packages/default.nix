@@ -38,15 +38,15 @@ in {
         dmidecode # get bios info e.g. version: dmidecode -t bios
         docker
         exfatprogs
-        git # TODO
+        git
         htop
         kubectl
         nixos-generators
         nixfmt
-        vim # TODO:
+        vim
         wget
         yq-go # YAML processor
-        zsh # TODO
+        zsh
         zsh-git-prompt
       ];
       home-manager = {
@@ -58,7 +58,9 @@ in {
             services = config.home-manager-desktop.services;
             programs = config.home-manager-desktop.programs // {
               bash.enable = true;
-              nushell.enable = true;
+              nushell = {
+                enable = true;
+              };
               zsh = {
                 enable = true;
                 initExtraFirst = "source $ZSH/oh-my-zsh.sh";

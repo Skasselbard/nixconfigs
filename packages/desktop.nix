@@ -19,17 +19,15 @@ with builtins; {
     meld # diff viewer
     signal-desktop
     skypeforlinux
-    spotify #TODO: nixos
+    spotify
     virt-manager
     vlc
     zotero
-    jabref
     # zoom-us
 
     # discord
     # kicad
     # okular
-    # peek
   ];
   home-manager-desktop = {
     programs = {

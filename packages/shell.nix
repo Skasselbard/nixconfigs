@@ -2,8 +2,9 @@
   # bash.enable = true;
   # nushell.enable = true;
   environment = {
-    systemPackages = with pkgs; [ nerdfonts zsh-powerlevel10k ];
+    systemPackages = with pkgs; [ nerdfonts zsh-powerlevel10k ]; # FIXME: fonts
   };
+  fonts.packages = with pkgs; [ nerdfonts ];
   programs.zsh = {
     enable = true;
     autosuggestions.enable = true;
