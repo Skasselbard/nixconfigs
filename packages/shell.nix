@@ -4,7 +4,7 @@
   environment = {
     systemPackages = with pkgs; [ nerdfonts zsh-powerlevel10k ]; # FIXME: fonts
   };
-  fonts.packages = with pkgs; [ nerdfonts ];
+  # fonts.packages = with pkgs; [ nerdfonts ];
   programs.zsh = {
     enable = true;
     autosuggestions.enable = true;
@@ -12,9 +12,8 @@
     enableBashCompletion = true;
     syntaxHighlighting.enable = true;
     promptInit = ''
-      # export POWERLEVEL9K_MODE=nerdfont-complete
       source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
-      # source ${./p10k.zsh}
+      source ${./p10k.zsh}
       sshamnesia() {
         ssh -o 'UserKnownHostsFile=/dev/null' -o 'StrictHostKeyChecking=no' -o 'LogLevel=ERROR' $1
       }
