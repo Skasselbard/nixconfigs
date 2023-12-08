@@ -1,8 +1,6 @@
 { pkgs, ... }: {
-  # bash.enable = true;
-  # nushell.enable = true;
   environment = {
-    systemPackages = with pkgs; [ nerdfonts zsh-powerlevel10k ]; # FIXME: fonts
+    systemPackages = with pkgs; [ nerdfonts zsh-powerlevel10k ];
   };
   # fonts.packages = with pkgs; [ nerdfonts ];
   programs.zsh = {
@@ -18,7 +16,6 @@
         ssh -o 'UserKnownHostsFile=/dev/null' -o 'StrictHostKeyChecking=no' -o 'LogLevel=ERROR' $1
       }
     '';
-    # autocd = true;
     # options: https://manpages.debian.org/testing/zsh-common/zshoptions.1.en.html
     setOptions = [
       "AUTO_CD"
