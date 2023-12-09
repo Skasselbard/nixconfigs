@@ -23,6 +23,7 @@ in {
       home-manager-desktop = mkOption {
         type = attrs;
         default = {
+          home = { };
           programs = { };
           services = { };
         };
@@ -54,13 +55,13 @@ in {
         users = listToAttrs (map (elem: {
           name = elem;
           value = {
-            home.stateVersion = "23.11";
+            home = {
+              stateVersion = "23.11";
+            } // config.home-manager-desktop.home;
             services = config.home-manager-desktop.services;
             programs = config.home-manager-desktop.programs // {
               bash.enable = true;
-              nushell = {
-                enable = true;
-              };
+              nushell = { enable = true; };
               zsh = {
                 enable = true;
                 initExtraFirst = "source $ZSH/oh-my-zsh.sh";
