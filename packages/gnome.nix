@@ -124,7 +124,7 @@ in {
               sleep-inactive-ac-timeout = 21600; # 6h
             };
           "org/gnome/desktop/session" = mkIf suspress_idle_loggoff {
-            idle-delay = 21600; # 6h
+            idle-delay = 0;
           };
         }; # dconf.settings
       };
