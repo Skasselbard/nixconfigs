@@ -2,7 +2,7 @@
   environment.systemPackages = with pkgs; [
     clang
     gradle
-    jdk17
+    jdk21
     llvm
     maven
     # python3Full

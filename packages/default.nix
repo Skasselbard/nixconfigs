@@ -26,6 +26,7 @@ in {
           home = { };
           programs = { };
           services = { };
+          systemd = { };
         };
       };
     };
@@ -58,6 +59,7 @@ in {
             home = {
               stateVersion = "23.11";
             } // config.home-manager-desktop.home;
+            systemd = config.home-manager-desktop.systemd;
             services = config.home-manager-desktop.services;
             programs = config.home-manager-desktop.programs // {
               bash.enable = true;
