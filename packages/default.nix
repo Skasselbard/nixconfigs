@@ -45,6 +45,7 @@ in {
         kubectl
         nixos-generators
         nixfmt
+        ntfs3g # TODO: not as default?
         vim
         wget
         yq-go # YAML processor
