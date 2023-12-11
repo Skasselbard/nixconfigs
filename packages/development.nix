@@ -1,8 +1,12 @@
 { pkgs, ... }: {
+
+  programs.java = {
+    enable = true;
+    package = pkgs.jdk21;
+  };
   environment.systemPackages = with pkgs; [
     clang
     gradle
-    jdk21
     llvm
     maven
     # python3Full
