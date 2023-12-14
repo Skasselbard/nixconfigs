@@ -27,14 +27,14 @@ with pkgs; {
       value = {
         isNormalUser = mkForce true;
         extraGroups = [ "wheel" "docker" "libvirtd" "networkmanager" ];
-        shell = mkForce zsh;
+        shell = mkForce nushellFull;
         hashedPassword = mkDefault config.hashedUserPwd;
         openssh.authorizedKeys.keys = mkDefault [ config.sshKey ];
       };
     }) config.adminUsers) // {
       root = {
         openssh.authorizedKeys.keys = mkDefault [ config.sshKey ];
-        shell = zsh;
+        shell = nushellFull;
       };
     };
   };
