@@ -20,6 +20,8 @@ in {
         description = "List of users the packages are applyied to";
         default = [ "root" ];
       };
+      # TODO: make sub options
+      # TODO: destinguish between root and user
       home-manager-desktop = mkOption {
         type = attrs;
         default = {
@@ -57,27 +59,28 @@ in {
         users = listToAttrs (map (elem: {
           name = elem;
           value = {
-            home = {
-              stateVersion = "23.11";
-            } // config.home-manager-desktop.home;
+            home = lib.attrsets.recursiveUpdate { stateVersion = "23.11"; }
+              config.home-manager-desktop.home;
             systemd = config.home-manager-desktop.systemd;
             services = config.home-manager-desktop.services;
-            programs = config.home-manager-desktop.programs // {
-              bash.enable = true;
-              nushell = { enable = true; };
-              zsh = {
-                enable = true;
-                initExtraFirst = "source $ZSH/oh-my-zsh.sh";
+            programs = lib.attrsets.recursiveUpdate
+              config.home-manager-desktop.programs {
+                # FIXME: move to shell.nix
+                bash.enable = true;
+                nushell = { enable = true; };
+                zsh = {
+                  enable = true;
+                  initExtraFirst = "source $ZSH/oh-my-zsh.sh";
+                };
+                git = {
+                  enable = true;
+                  package = gitSVN;
+                  userName = elem;
+                  # userEmail = config.gitMail;
+                };
               };
-              git = {
-                enable = true;
-                package = gitSVN;
-                userName = elem;
-                # userEmail = config.gitMail;
-              };
-            };
           };
-        }) (config.adminUsers ++ config.osUsers));
+        }) (config.adminUsers ++ config.osUsers)); # FIXME: remove root user?
       };
     };
 }
