@@ -26,7 +26,6 @@ in {
         type = attrs;
         default = {
           home = { };
-          packages = { };
           programs = { };
           services = { };
           systemd = { };
@@ -64,7 +63,6 @@ in {
               config.home-manager-desktop.home;
             systemd = config.home-manager-desktop.systemd;
             services = config.home-manager-desktop.services;
-            packages = config.home-manager-desktop.packages;
             programs = lib.attrsets.recursiveUpdate
               config.home-manager-desktop.programs {
                 # FIXME: move to shell.nix
