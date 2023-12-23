@@ -1,9 +1,9 @@
 { pkgs, config, ... }:
 with builtins; {
-  services.printing.enable = true;
-  networking.networkmanager.enable = true;
+  imports = [ ./gnome.nix ];
+  requiredSystemModules = [ ../system/desktop.nix ];
 
-  environment.systemPackages = with pkgs; [
+  home.packages = with pkgs; [
     appimage-run
     firefox
     gparted
@@ -18,7 +18,7 @@ with builtins; {
     remmina
     meld # diff viewer
     signal-desktop
-    skypeforlinux
+    # skypeforlinux
     spotify
     virt-manager
     vlc
@@ -29,14 +29,12 @@ with builtins; {
     # kicad
     # okular
   ];
-  home-manager-desktop = {
-    programs = {
-      obs-studio.enable = true;
-      vscode.enable = true;
-    };
-    services = {
-      # flameshot.enable = true;
-      # keepassx.enable = true;
-    };
+  programs = {
+    obs-studio.enable = true;
+    vscode.enable = true;
+  };
+  services = {
+    # flameshot.enable = true;
+    # keepassx.enable = true;
   };
 }

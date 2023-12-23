@@ -1,10 +1,12 @@
 { pkgs, ... }: {
 
+  requiredSystemModules = [ ];
+
   programs.java = {
     enable = true;
     package = pkgs.jdk21;
   };
-  environment.systemPackages = with pkgs; [
+  home.packages = with pkgs; [
     clang
     gradle
     llvm

@@ -1,12 +1,7 @@
 { ... }:
 
 {
-  imports = [
-    <nixpkgs/nixos/modules/profiles/minimal.nix>
-    ./packages
-    ./users
-    ./locale.nix
-  ];
+  imports = [ ./packages ./users ./locale.nix ];
 
   # Clean /tmp on boot.
   boot.tmp.cleanOnBoot = true;

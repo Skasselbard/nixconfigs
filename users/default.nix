@@ -1,41 +1,44 @@
 { lib, config, pkgs, ... }:
 
 with lib;
-with pkgs; {
+with pkgs;
+with builtins; {
   # https://nix-community.github.io/home-manager/
 
   options = with types; {
     ## mkpasswd -m sha-512
-    hashedUserPwd = mkOption {
-      type = nullOr str;
-      default = null;
-    };
-    sshKey = mkOption {
-      type = str;
-      default = "";
-    };
-    adminUsers = mkOption { # TODO: better var name?
-      type = nullOr (listOf str);
-      description = "List of users with admin priviliges";
+    userConfigs = mkOption {
+      type = listOf attrs;
+      description = ''
+        A list of home configurations created with user level package templates.
+        Used to detremine the required system packages.
+      '';
+      default = [ ];
+      example = [
+        (import ./defaultAdmin {
+          pswdHash = "$6$lskjdfhalsjhdaslj";
+          sshKeys = [ "olijdsfjklhsdfgvkjlhdfvsgkjhlsdfvgjkhl" ];
+          homeModules = [ ../packages/user/desktop.nix ];
+        })
+      ];
     };
   };
 
   config = {
     users.mutableUsers = mkDefault false;
-    users.extraUsers = listToAttrs (map (elem: {
-      name = elem;
-      value = {
-        isNormalUser = mkForce true;
-        extraGroups = [ "wheel" "docker" "libvirtd" "networkmanager" ];
-        shell = mkForce nushellFull;
-        hashedPassword = mkDefault config.hashedUserPwd;
-        openssh.authorizedKeys.keys = mkDefault [ config.sshKey ];
+
+    home-manager.users = listToAttrs (map (config: {
+      name = config.name;
+      value = import ../packages/user {
+        inherit pkgs lib;
+        userConfig = config.userConfig;
+        username = config.name;
+        modules = config.homeModules;
       };
-    }) config.adminUsers) // {
-      root = {
-        openssh.authorizedKeys.keys = mkDefault [ config.sshKey ];
-        shell = nushellFull;
-      };
-    };
+    }) config.userConfigs);
+    users.users = listToAttrs (map (config: {
+      name = config.name;
+      value = config.systemConfig;
+    }) config.userConfigs);
   };
 }

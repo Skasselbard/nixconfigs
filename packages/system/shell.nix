@@ -11,7 +11,7 @@
     syntaxHighlighting.enable = true;
     promptInit = ''
       source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
-      source ${./configs/p10k.zsh}
+      source ${../configs/p10k.zsh}
       sshamnesia() {
         ssh -o 'UserKnownHostsFile=/dev/null' -o 'StrictHostKeyChecking=no' -o 'LogLevel=ERROR' $1
       }
