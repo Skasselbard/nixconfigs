@@ -30,8 +30,16 @@
             (concatMap (userConfig: userConfig.homeModules) userConfigs));
         userConfig = import "${self}/users/userConfig.nix";
         defaultAdmin = import "${self}/users/defaultAdmin.nix";
-        packages.desktop = { config, ... }: {
-          imports = [ "${self}/packages/desktop.nix" ];
+        packages.desktop = {
+          imports = [ "${self}/packages/system/desktop.nix" ];
+        };
+        packages.dns = { imports = [ "${self}/packages/system/dns.nix" ]; };
+        packages.keepass = {
+          imports = [ "${self}/packages/system/keepass.nix" ];
+        };
+        packages.steam = { imports = [ "${self}/packages/system/steam.nix" ]; };
+        packages.prometheus = {
+          imports = [ "${self}/packages/prometheus.nix" ];
         };
       };
   };
