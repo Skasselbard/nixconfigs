@@ -5,7 +5,7 @@
     starship = {
       enable = true;
       package = pkgs.starship;
-      enableZshIntegration = false;
+      # enableZshIntegration = false;
       settings = let
         # colors
         neutral = "#090c0c";
@@ -175,7 +175,11 @@
           format = "[$duration]($style)";
         };
         status.style = "bg:${status}";
-        shell.style = "bg:${status}";
+        shell = {
+          disabled = false;
+          style = "bg:${status}";
+          format = "[ $indicator]($style)";
+        };
         # nerdfonts
         aws = { symbol = "  "; };
         buf = { symbol = " "; };

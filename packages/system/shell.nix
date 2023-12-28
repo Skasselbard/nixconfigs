@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ config, lib, pkgs, ... }: {
   environment = {
     systemPackages = with pkgs; [ nerdfonts zsh-powerlevel10k ];
   };
@@ -10,8 +10,8 @@
     enableBashCompletion = true;
     syntaxHighlighting.enable = true;
     promptInit = ''
-      source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
-      source ${../configs/p10k.zsh}
+      # source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
+      # source ${../configs/p10k.zsh}
       sshamnesia() {
         ssh -o 'UserKnownHostsFile=/dev/null' -o 'StrictHostKeyChecking=no' -o 'LogLevel=ERROR' $1
       }
@@ -24,40 +24,40 @@
       "HIST_EXPIRE_DUPS_FIRST"
       "SHARE_HISTORY"
     ];
-    ohMyZsh = {
-      enable = true;
-      theme = "";
-      plugins = [
-        "adb"
-        "ansible"
-        "argocd"
-        "aws"
-        "azure"
-        "command-not-found"
-        "colored-man-pages"
-        "dirhistory"
-        "docker"
-        "docker-compose"
-        "dotnet"
-        "extract"
-        "git"
-        "github"
-        "gradle"
-        "helm"
-        "kubectl"
-        "mvn"
-        "node"
-        "npm"
-        "per-directory-history"
-        "pip"
-        # "podman"
-        "python"
-        "rust"
-        "sudo"
-        "svn"
-        "terraform"
-        "vscode"
-      ];
-    };
+    # ohMyZsh = {
+    #   enable = true;
+    #   theme = "";
+    #   plugins = [
+    #     "adb"
+    #     "ansible"
+    #     "argocd"
+    #     "aws"
+    #     "azure"
+    #     "command-not-found"
+    #     "colored-man-pages"
+    #     "dirhistory"
+    #     "docker"
+    #     "docker-compose"
+    #     "dotnet"
+    #     "extract"
+    #     "git"
+    #     "github"
+    #     "gradle"
+    #     "helm"
+    #     "kubectl"
+    #     "mvn"
+    #     "node"
+    #     "npm"
+    #     "per-directory-history"
+    #     "pip"
+    #     # "podman"
+    #     "python"
+    #     "rust"
+    #     "sudo"
+    #     "svn"
+    #     "terraform"
+    #     "vscode"
+    #   ];
+    # };
   };
 }

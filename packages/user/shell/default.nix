@@ -9,7 +9,7 @@
     };
     zsh = {
       enable = true;
-      initExtraFirst = "source $ZSH/oh-my-zsh.sh";
+      # initExtraFirst = "source $ZSH/oh-my-zsh.sh";
     };
     carapace.enable = true; # shell completions
     atuin = { # shell history

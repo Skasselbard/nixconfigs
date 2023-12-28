@@ -1,4 +1,16 @@
-{ pkgs, lib, ... }: {
+{ config, pkgs, lib, ... }: {
+
+  dconf.settings = with pkgs; {
+    # gnome shell settings from https://hoverbear.org/blog/declarative-gnome-configuration-in-nixos/
+    "org/gnome/Console" = { shell = [ "${pkgs.nushellFull}/bin/nu" ]; };
+  };
+  # TODO: plugins
+  # - https://crates.io/search?q=nu_plugin&sort=downloads
+  # - https://github.com/fennewald/nu_plugin_net
+  # - https://github.com/fdncred/nu_plugin_pnet
+  # - https://github.com/cptpiepmatz/nu-plugin-highlight
+  # - https://github.com/dead10ck/nu_plugin_dns
+
   requiredSystemModules = [ ];
   # home.packages = let
   #   # nu-plugin = let version = "v0.88.1";
@@ -60,18 +72,23 @@
       # in 
       {
         enable = true;
-        package = pkgs.nushell;
+        package = pkgs.nushellFull;
         # configFile.text = '' '';
-        # extraConfig =
-        #   "starship preset nerd-font-symbols -o ~/.config/starship.toml";
-        # loginFile = null;
         shellAliases = { ll = "ls -l"; };
         extraConfig = ''
           def sshamnesia --wrapped [...args] {
             ssh -o 'UserKnownHostsFile=/dev/null' -o 'StrictHostKeyChecking=no' -o 'LogLevel=ERROR' ($args | str join " ")
                 }
         '';
-        # envFile.text = ''
+        envFile.text = ''
+          bash -c $"source /etc/set-environment && source ${config.home.homeDirectory}/.profile && env"
+              | lines
+              | parse "{n}={v}"
+              | filter { |x| (not $x.n in $env) or $x.v != ($env | get $x.n) }
+              | where not n in ["_", "LAST_EXIT_CODE", "DIRS_POSITION"]
+              | transpose --header-row
+              | into record
+              | load-env''; # workaround to source environment
         #   source ${nu_scripts}/modules/data_extraction/ultimate_extractor.nu
         # '';
       };
