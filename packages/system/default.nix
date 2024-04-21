@@ -12,8 +12,10 @@
         git
         htop
         kubectl
+        mdadm
         nixos-generators
         nixfmt
+        # nix-inspect // TODO. include when available
         ntfs3g # TODO: not as default?
         vim
         wget

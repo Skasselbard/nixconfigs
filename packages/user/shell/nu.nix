@@ -1,9 +1,5 @@
 { config, pkgs, lib, ... }: {
 
-  dconf.settings = with pkgs; {
-    # gnome shell settings from https://hoverbear.org/blog/declarative-gnome-configuration-in-nixos/
-    "org/gnome/Console" = { shell = [ "${pkgs.nushellFull}/bin/nu" ]; };
-  };
   # TODO: plugins
   # - https://crates.io/search?q=nu_plugin&sort=downloads
   # - https://github.com/fennewald/nu_plugin_net

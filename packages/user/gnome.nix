@@ -50,6 +50,7 @@ in {
     "org/gnome/shell/extensions/auto-move-windows" = {
       application-list = [ "signal-desktop.desktop:2" "spotify.desktop:2" ];
     };
+    "org/gnome/Console" = { shell = [ "${pkgs.nushellFull}/bin/nu" ]; };
     "org/gnome/shell" = {
       favorite-apps = [
         "org.gnome.Nautilus.desktop"
