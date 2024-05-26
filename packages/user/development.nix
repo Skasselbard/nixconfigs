@@ -1,5 +1,6 @@
 { pkgs, ... }: {
 
+  _class = "homeManager";
   requiredSystemModules = [ ];
 
   programs.java = {

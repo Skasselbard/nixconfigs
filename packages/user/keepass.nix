@@ -1,5 +1,6 @@
 { pkgs, lib, config, ... }: {
 
+  _class = "homeManager";
   requiredSystemModules = [ ../system/keepass.nix ];
   services.gnome-keyring.enable = false;
   home.file."/.config/keepassxc/keepassxc.ini" = {

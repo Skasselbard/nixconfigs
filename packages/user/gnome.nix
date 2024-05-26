@@ -3,6 +3,7 @@ with builtins;
 with lib;
 let suspress_idle_loggoff = true;
 in {
+  _class = "homeManager";
   requiredSystemModules = [ ../system/desktop.nix ];
   home.packages = with pkgs; [
     gnomeExtensions.color-picker

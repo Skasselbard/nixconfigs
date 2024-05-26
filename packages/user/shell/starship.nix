@@ -1,4 +1,5 @@
 { pkgs, lib, ... }: {
+  _class = "homeManager";
   requiredSystemModules = [ ];
 
   programs = {

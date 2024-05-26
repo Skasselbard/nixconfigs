@@ -1,5 +1,6 @@
 { config, pkgs, lib, ... }: {
 
+  _class = "homeManager";
   # TODO: plugins
   # - https://crates.io/search?q=nu_plugin&sort=downloads
   # - https://github.com/fennewald/nu_plugin_net

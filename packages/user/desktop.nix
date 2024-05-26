@@ -1,5 +1,6 @@
 { pkgs, config, ... }:
 with builtins; {
+  _class = "homeManager";
   imports = [ ./gnome.nix ];
   requiredSystemModules = [ ../system/desktop.nix ];
 

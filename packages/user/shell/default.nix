@@ -1,5 +1,6 @@
 { ... }: {
   #TODO: custom terminal emulator? https://github.com/alacritty/alacritty
+  _class = "homeManager";
   imports = [ ./nu.nix ./starship.nix ];
   requiredSystemModules = [ ../../system/shell.nix ];
   programs = {
