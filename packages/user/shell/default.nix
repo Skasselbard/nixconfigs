@@ -1,19 +1,31 @@
-{ ... }: {
+{ ... }:
+{
   #TODO: custom terminal emulator? https://github.com/alacritty/alacritty
   _class = "homeManager";
-  imports = [ ./nu.nix ./starship.nix ];
+
+  imports = [
+    ./nu.nix
+    ./starship.nix
+  ];
+
   requiredSystemModules = [ ../../system/shell.nix ];
+
   programs = {
+
     bash = {
       enable = true;
       enableCompletion = true;
     };
+
     zsh = {
       enable = true;
       # initExtraFirst = "source $ZSH/oh-my-zsh.sh";
     };
+
     carapace.enable = true; # shell completions
-    atuin = { # shell history
+
+    atuin = {
+      # shell history
       enable = true;
       flags = [ ]; # "--disable-up-arrow" ];
       settings = {
@@ -24,7 +36,10 @@
         style = "compact";
         inline_height = 15;
         history_filter = [ "^mkpasswd" ];
+        daemon.enabled = true;
       };
     };
+
   };
+
 }

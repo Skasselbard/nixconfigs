@@ -14,7 +14,7 @@
         kubectl
         mdadm
         nixos-generators
-        nixfmt
+        nixfmt-rfc-style
         # nix-inspect // TODO. include when available
         ntfs3g # TODO: not as default?
         vim

@@ -1,5 +1,5 @@
-{ pkgs, config, lib, ... }:
-with builtins; {
+{ pkgs, lib, ... }:
+{
   environment.systemPackages = with pkgs; [ gnome.gnome-tweaks ];
   services.printing.enable = lib.mkDefault true;
   networking.networkmanager.enable = lib.mkDefault true;
@@ -16,8 +16,8 @@ with builtins; {
 
   # Configure keymap in X11
   services.xserver = {
-    layout = "de";
-    xkbVariant = "nodeadkeys";
+    xkb.layout = "de";
+    xkb.variant = "nodeadkeys";
   };
 
   # Enable sound with pipewire.
