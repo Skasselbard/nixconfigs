@@ -11,9 +11,6 @@
   services.xserver.desktopManager.gnome.enable = true;
   programs.dconf.enable = true;
 
-  # workaround for cairo-xlib error: https://github.com/NixOS/nixpkgs/issues/102137
-  environment.noXlibs = lib.mkForce false;
-
   # Configure keymap in X11
   services.xserver = {
     xkb.layout = "de";
@@ -21,7 +18,6 @@
   };
 
   # Enable sound with pipewire.
-  sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {

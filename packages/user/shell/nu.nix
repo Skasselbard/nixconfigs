@@ -69,7 +69,7 @@
       # in 
       {
         enable = true;
-        package = pkgs.nushellFull;
+        package = pkgs.nushell;
         # configFile.text = '' '';
         shellAliases = { ll = "ls -l"; };
         extraConfig = ''
