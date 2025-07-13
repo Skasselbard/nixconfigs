@@ -2,7 +2,7 @@
   description = "A very basic flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
     crane.url = "github:ipetkov/crane/v0.15.1";
   };
 
@@ -48,6 +48,9 @@
           dyndns = {
             imports = [ "${self}/services/dyndns.nix" ];
           };
+          jdownloader = {
+            imports = [ "${self}/packages/system/jdownloader.nix" ];
+          };
           keepass = {
             imports = [ "${self}/packages/system/keepass.nix" ];
           };
@@ -55,7 +58,10 @@
             imports = [ "${self}/packages/system/steam.nix" ];
           };
           prometheus = {
-            imports = [ "${self}/packages/prometheus.nix" ];
+            imports = [ "${self}/packages/system/prometheus.nix" ];
+          };
+          virtualization = {
+            imports = [ "${self}/packages/system/virtualization.nix" ];
           };
         };
 
