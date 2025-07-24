@@ -1,8 +1,17 @@
-{ config, lib, pkgs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
   environment = {
-    systemPackages = with pkgs; [ nerdfonts zsh-powerlevel10k ];
+    systemPackages = with pkgs; [
+      zsh-powerlevel10k
+    ];
   };
-  # fonts.packages = with pkgs; [ nerdfonts ];
+  fonts.packages = with pkgs; [ nerd-fonts.meslo-lg ];
+  # fonts.packages = builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts); # all fonts
   programs.zsh = {
     enable = true;
     autosuggestions.enable = true;

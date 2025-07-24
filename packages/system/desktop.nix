@@ -1,6 +1,6 @@
 { pkgs, lib, ... }:
 {
-  environment.systemPackages = with pkgs; [ gnome.gnome-tweaks ];
+  environment.systemPackages = with pkgs; [ gnome-tweaks ];
   services.printing.enable = lib.mkDefault true;
   networking.networkmanager.enable = lib.mkDefault true;
   # Enable the X11 windowing system.
@@ -18,7 +18,7 @@
   };
 
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
