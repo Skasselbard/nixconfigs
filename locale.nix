@@ -1,5 +1,8 @@
+{ pkgs, ... }:
 {
-  console.font = "Lat2-TerminusBold32x16";
+
+  console.packages = [ pkgs.terminus_font ];
+  console.font = "ter-v16b.psf.gz";
   console.keyMap = "de-latin1-nodeadkeys";
   i18n = {
     defaultLocale = "en_US.UTF-8";
